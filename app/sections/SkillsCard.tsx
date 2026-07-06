@@ -16,7 +16,18 @@ import { FaJava, FaCss3Alt, FaDatabase, FaVial, FaBug, FaMicrosoft } from "react
 import { FiTool, FiCheckCircle } from "react-icons/fi";
 import useRestoredScroll from "../hooks/useRestoredScroll";
 
-const skillGroups = [
+type SkillIcon = {
+  Icon: React.ElementType;
+  name: string;
+  color: string;
+};
+
+type SkillGroup = {
+  key: string;
+  icons: SkillIcon[];
+};
+
+const skillGroups: SkillGroup[] = [
   {
     key: "languages",
     icons: [
@@ -81,10 +92,10 @@ const skillGroups = [
   {
     key: "methodologies",
     icons: [
-      { Icon: FiTool, name: "Agile / Scrum", color: "#009FDA", isFi: true },
-      { Icon: FiTool, name: "Kanban", color: "#E84C3D", isFi: true },
-      { Icon: FiTool, name: "Clean Code", color: "#6DB33F", isFi: true },
-      { Icon: FiTool, name: "SOLID", color: "#F7DF1E", isFi: true },
+      { Icon: FiTool, name: "Agile / Scrum", color: "#009FDA" },
+      { Icon: FiTool, name: "Kanban", color: "#E84C3D" },
+      { Icon: FiTool, name: "Clean Code", color: "#6DB33F" },
+      { Icon: FiTool, name: "SOLID", color: "#F7DF1E" },
     ],
   },
 ];
@@ -123,7 +134,7 @@ export default function SkillsCard() {
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {group.icons.map((icon, ii) => {
-                    const IconComp = icon.isFi ? (icon.Icon as any) : icon.Icon;
+                    const IconComp = icon.Icon;
                     return (
                       <motion.div
                         key={ii}
