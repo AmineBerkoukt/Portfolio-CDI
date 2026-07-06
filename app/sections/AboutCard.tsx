@@ -9,6 +9,7 @@ export default function AboutCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
+  const aboutContent = t("about.content") as string;
 
   const contactItems = [
     { icon: FiMapPin, text: t("about.location") },
@@ -29,7 +30,7 @@ export default function AboutCard() {
           width="w-full max-w-3xl"
         >
           <p className={`font-mono text-sm leading-relaxed mb-6 ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/80"}`}>
-            {t("about.content")}
+            {aboutContent}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {contactItems.map((item, i) => (

@@ -7,6 +7,8 @@ export default function Footer() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
+  const footerRights = t("footer.rights") as string;
+  const footerBuilt = t("footer.built") as string;
 
   return (
     <footer
@@ -20,14 +22,14 @@ export default function Footer() {
           isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"
         }`}
       >
-        © {new Date().getFullYear()} Amine BERKOUKT — {t("footer.rights") as string}
+        © {new Date().getFullYear()} Amine BERKOUKT — {footerRights}
       </p>
       <p
         className={`font-mono text-[10px] mt-2 ${
           isDark ? "text-stage-red-glow/30" : "text-stage-gold/30"
         }`}
       >
-        {t("footer.built") as string}
+        {footerBuilt}
       </p>
     </footer>
   );
