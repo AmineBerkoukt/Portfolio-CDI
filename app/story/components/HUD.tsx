@@ -147,7 +147,7 @@ export default function HUD() {
         <Identity />
         <XpBar isDark={isDark} />
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stage-silver/40 mb-2 px-1">
+          <p className={`font-mono text-[10px] uppercase tracking-[0.25em] mb-2 px-1 ${isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"}`}>
             {pick(lang, UI.hudNav)}
           </p>
           <nav className="flex flex-col gap-0.5">
@@ -162,7 +162,7 @@ export default function HUD() {
         className={`lg:hidden sticky top-14 z-30 -mx-4 px-3 py-2 border-b backdrop-blur-md mb-6 ${panelBg}`}
       >
         <div className="flex items-center gap-3 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none]">
-          <span className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-stage-silver/50 hidden xs:inline">
+          <span className={`shrink-0 font-mono text-[10px] uppercase tracking-widest hidden xs:inline ${isDark ? "text-stage-silver/50" : "text-stage-charcoal/50"}`}>
             {pick(lang, UI.hudQuests)}
           </span>
           {NAV.map((n) => {
@@ -212,7 +212,7 @@ function Identity() {
         <p className={`font-serif text-sm leading-tight truncate ${isDark ? "text-white" : "text-stage-charcoal"}`}>
           {CHARACTER.name}
         </p>
-        <p className="font-mono text-[10px] uppercase tracking-wide text-stage-silver/60 leading-tight">
+        <p className={`font-mono text-[10px] uppercase tracking-wide leading-tight ${isDark ? "text-stage-silver/60" : "text-stage-charcoal/60"}`}>
           {pick(lang, CHARACTER.playerClass)}
         </p>
       </div>

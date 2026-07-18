@@ -7,10 +7,11 @@ import { STAGES, UI, type Stage, type LevelStatus } from "../data";
 import { accent, pick, scrollToId } from "../util";
 import SectionHead from "./SectionHead";
 import { FiCheck, FiZap, FiRefreshCw, FiChevronRight, FiFlag, FiCrosshair } from "react-icons/fi";
+import { GiDinosaurRex } from "react-icons/gi";
 
 // Serpentine route through the 6 stage coordinates (viewBox 0..100 space).
 const ROUTE_D =
-  "M 14 15 C 28 13 28 11 40 11 C 56 11 54 16 70 16 C 82 16 88 22 88 40 C 88 55 78 64 64 64 C 50 64 46 84 32 84";
+  "M 14 15 C 25 15 28 20 40 20 C 56 20 54 16 70 16 C 82 16 88 22 88 40 C 88 55 78 64 64 64 C 50 64 46 84 32 84";
 
 function StatusIcon({ status }: { status: LevelStatus }) {
   if (status === "completed") return <FiCheck size={13} />;
@@ -22,20 +23,17 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
   const a = accent(stage.theme);
   const { lang } = useI18n();
   const hasBoss = stage.items.some((i) => i.bossTag);
+  const hasFinalBoss = stage.items.some((i) => i.finalBoss);
   const pulseCls =
     stage.status === "current" ? "story-node-pulse-current" : "story-node-pulse";
   return (
     <button
       onClick={() => scrollToId(stage.id)}
-      className={`story-focus absolute -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center group ${pulseCls}`}
-      style={
-        {
-          left: `${stage.node.x}%`,
-          top: `${stage.node.y}%`,
-          ["--node-glow" as string]: a.glow,
-          ["--node-ring" as string]: a.base,
-        } as React.CSSProperties
-      }
+      className={`story-focus absolute -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center group`}
+      style={{
+        left: `${stage.node.x}%`,
+        top: `${stage.node.y}%`,
+      }}
       aria-label={pick(lang, stage.title)}
     >
       {/* little flag planted above the node */}
@@ -53,13 +51,15 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
 
       {/* medallion */}
       <span
-        className="relative flex h-[4.2rem] w-[4.2rem] items-center justify-center rounded-full font-condensed text-2xl transition-transform group-hover:scale-110"
+        className={`relative flex h-[4.2rem] w-[4.2rem] items-center justify-center rounded-full font-condensed text-2xl transition-transform group-hover:scale-110 ${pulseCls}`}
         style={{
           background: isDark ? "var(--stage-velvet)" : "#fff",
           border: `3px solid ${a.base}`,
           color: a.glow,
           boxShadow: `0 0 18px ${a.glow}55, inset 0 0 10px ${a.base}33`,
-        }}
+          ["--node-glow" as string]: a.glow,
+          ["--node-ring" as string]: a.base,
+        } as React.CSSProperties}
       >
         <span
           className="absolute inset-0 rounded-full"
@@ -91,7 +91,7 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
             className="mt-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-condensed text-[9px] tracking-widest"
             style={{ background: "var(--quest-boss)", color: "#1a1206" }}
           >
-            <FiCrosshair size={9} /> BOSS
+            {hasFinalBoss ? <GiDinosaurRex size={9} /> : <FiCrosshair size={9} />} {hasFinalBoss ? "BIG BOSS" : "BOSS"}
           </span>
         )}
       </span>
@@ -299,32 +299,33 @@ export default function WorldMap() {
         {STAGES.map((s) => {
           const a = accent(s.theme);
           const hasBoss = s.items.some((i) => i.bossTag);
+          const hasFinalBoss = s.items.some((i) => i.finalBoss);
           return (
             <li key={s.id} className="relative">
               <span
-                className={`absolute -left-[9px] top-3 h-4 w-4 rounded-full border-2 ${
-                  s.status === "current" ? "story-node-pulse-current" : "story-node-pulse"
-                }`}
-                style={
-                  {
-                    background: isDark ? "var(--stage-velvet)" : "#fff",
-                    borderColor: a.base,
-                    ["--node-glow" as string]: a.glow,
-                    ["--node-ring" as string]: a.base,
-                  } as React.CSSProperties
-                }
+                className={`absolute -left-[9px] top-3 h-4 w-4 rounded-full border-2`}
+                style={{
+                  background: isDark ? "var(--stage-velvet)" : "#fff",
+                  borderColor: a.base,
+                }}
               />
               <button
                 onClick={() => scrollToId(s.id)}
-                className={`story-focus w-full text-left rounded-xl p-4 border transition-colors flex items-center gap-3 ${
-                  isDark
-                    ? "bg-stage-velvet/60 border-stage-red/15 hover:border-stage-red/40"
-                    : "bg-white/70 border-stage-azure/35 hover:border-stage-azure/60"
-                }`}
+                className="story-focus w-full text-left py-2 transition-colors flex items-center gap-3 hover:opacity-80 group"
               >
                 <span
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-condensed text-base font-bold"
-                  style={{ border: `2px solid ${a.base}`, color: a.glow }}
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-condensed text-base font-bold ${
+                    s.status === "current" ? "story-node-pulse-current" : "story-node-pulse"
+                  }`}
+                  style={
+                    {
+                      border: `2px solid ${a.base}`,
+                      color: a.glow,
+                      ["--node-glow" as string]: a.glow,
+                      ["--node-ring" as string]: a.base,
+                      background: isDark ? "var(--stage-velvet)" : "#fff",
+                    } as React.CSSProperties
+                  }
                 >
                   {s.num}
                 </span>
@@ -342,11 +343,11 @@ export default function WorldMap() {
                       className="mt-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-condensed text-[9px] tracking-widest"
                       style={{ background: "var(--quest-boss)", color: "#1a1206" }}
                     >
-                      <FiCrosshair size={9} /> BOSS
+                      {hasFinalBoss ? <GiDinosaurRex size={9} /> : <FiCrosshair size={9} />} {hasFinalBoss ? "BIG BOSS" : "BOSS"}
                     </span>
                   )}
                 </span>
-                <FiChevronRight size={18} className="shrink-0 text-stage-silver/40" />
+                <FiChevronRight size={18} className={`shrink-0 ${isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"}`} />
               </button>
             </li>
           );

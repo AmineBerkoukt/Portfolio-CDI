@@ -68,7 +68,7 @@ export default function TitleScreen() {
             onClick={() => scrollToId("world")}
             whileHover={{ scale: reduce ? 1 : 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="story-focus flex items-center gap-2 px-7 py-3.5 rounded-full font-condensed uppercase tracking-widest text-sm text-white border"
+            className={`story-focus flex items-center gap-2 px-7 py-3.5 rounded-full font-condensed uppercase tracking-widest text-sm border ${isDark ? "text-white" : "text-stage-charcoal"}`}
             style={{
               borderColor: "var(--quest-side)",
               background: "rgba(168,85,247,0.18)",

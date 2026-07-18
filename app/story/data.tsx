@@ -10,7 +10,7 @@ import {
   SiGnubash,
 } from "react-icons/si";
 import {
-  FaJava, FaCss3Alt, FaDatabase, FaBug, FaMicrosoft,
+  FaJava, FaCss3Alt, FaDatabase, FaBug, FaMicrosoft, FaRobot, FaBrain, FaMagic
 } from "react-icons/fa";
 import {
   FiZap, FiGitBranch, FiLink, FiCpu, FiImage, FiEye,
@@ -42,7 +42,7 @@ const CSharpIcon = ({
   </svg>
 );
 export type Bi = { fr: string; en: string };
-export type ThemeKey = "academic" | "boss" | "side" | "recruit";
+export type ThemeKey = "academic" | "boss" | "side" | "recruit" | "lang" | "web" | "devops" | "testing" | "data" | "sys" | "method" | "ai";
 export type LevelStatus = "completed" | "ongoing" | "current";
 
 export interface TechItem {
@@ -113,6 +113,11 @@ const T: Record<string, TechItem> = {
   n8n: { name: "n8n", Icon: FiBox, color: "#EA4B71" },
   Whisper: { name: "Whisper", Icon: FiMic, color: "#10A37F" },
   Testcontainers: { name: "Testcontainers", Icon: FiPackage, color: "#1A6FE0" },
+  "Machine Learning": { name: "Machine Learning", Icon: FaBrain, color: "#FF6F00" },
+  "Deep Learning": { name: "Deep Learning", Icon: FaBrain, color: "#4B0082" },
+  "Generative AI": { name: "Generative AI", Icon: FaMagic, color: "#2E8B57" },
+  "Prompt Engineering": { name: "Prompt Engineering", Icon: FiZap, color: "#8B4513" },
+  "IA Agents": { name: "IA Agents", Icon: FaRobot, color: "#4682B4" },
   "Generic Tool": { name: "Tool", Icon: FiBox, color: "#94A3B8" },
 };
 
@@ -226,7 +231,7 @@ export const STAGES: Stage[] = [
     period: { fr: "Premier contact pro", en: "First Pro Contact" },
     theme: "boss",
     status: "completed",
-    node: { x: 40, y: 11 },
+    node: { x: 40, y: 20 },
     items: [
       {
         id: "s2-fundamentals",
@@ -362,7 +367,7 @@ export const STAGES: Stage[] = [
     org: { fr: "Zenika Rennes — Stage", en: "Zenika Rennes — Internship" },
     period: { fr: "2026", en: "2026" },
     theme: "boss",
-    status: "completed",
+    status: "ongoing",
     node: { x: 64, y: 64 },
     items: [
       {
@@ -392,17 +397,17 @@ export const STAGES: Stage[] = [
           { fr: "Livraison en conditions réelles", en: "Real-World Delivery" },
         ],
         tech: tech("Java", "Spring Boot", "Angular 20", "RxJs", "Docker", "Kubernetes", "JUnit", "WireMock", "Git", "GitLab CI/CD", "Jira"),
-        status: "completed",
+        status: "ongoing",
       },
     ],
   },
 
-  /* ============ STAGE 6 — FINAL BOSS ============ */
+  /* ============ STAGE 6 — BIG BOSS ============ */
   {
     id: "stage-6",
     num: "06",
-    kicker: { fr: "CHAPITRE 06 · BOSS FINAL", en: "CHAPTER 06 · FINAL BOSS" },
-    title: { fr: "BOSS FINAL : Décrocher un Emploi", en: "FINAL BOSS: Seeking a Job" },
+    kicker: { fr: "CHAPITRE 06 · BIG BOSS", en: "CHAPTER 06 · BIG BOSS" },
+    title: { fr: "BIG BOSS : Décrocher un Emploi", en: "BIG BOSS: Seeking a Job" },
     org: { fr: "En cours — la bataille finale", en: "Ongoing — the final battle" },
     period: { fr: "2026 →", en: "2026 →" },
     theme: "recruit",
@@ -416,8 +421,8 @@ export const STAGES: Stage[] = [
         finalBoss: true,
         title: { fr: "Décrocher un Emploi", en: "Seeking a Job" },
         blurb: {
-          fr: "Le boss final, encore en cours. La grande confrontation de toute la carte — pas encore vaincue.",
-          en: "The current, ongoing final battle. The big boss of the whole map — not yet defeated.",
+          fr: "Le big boss, encore en cours. La grande confrontation de toute la carte — pas encore vaincue.",
+          en: "The current, ongoing big boss battle. The big boss of the whole map — not yet defeated.",
         },
         loot: [
           { fr: "À débloquer…", en: "To be unlocked…" },
@@ -550,44 +555,50 @@ export const SKILL_BRANCHES: SkillBranch[] = [
   {
     key: "languages",
     label: { fr: "Langages", en: "Languages" },
-    theme: "academic",
+    theme: "lang",
     skills: tech("Java", "JavaScript", "TypeScript", "C", "C++", "C#"),
   },
   {
     key: "web",
     label: { fr: "Développement Web", en: "Web Dev" },
-    theme: "academic",
+    theme: "web",
     skills: tech("Spring", "Angular", "React", "HTML5", "CSS3"),
   },
   {
     key: "devops",
     label: { fr: "DevOps", en: "DevOps" },
-    theme: "boss",
+    theme: "devops",
     skills: tech("Docker", "Kubernetes", "Git", "GitHub", "GitLab", "Terraform", "Ansible", "Azure"),
   },
   {
     key: "testing",
     label: { fr: "Tests & Qualité", en: "Testing & Quality" },
-    theme: "boss",
+    theme: "testing",
     skills: tech("JUnit", "Postman", "Mockito", "WireMock"),
   },
   {
     key: "databases",
     label: { fr: "Bases de données", en: "Databases" },
-    theme: "academic",
+    theme: "data",
     skills: tech("MySQL", "PostgreSQL", "MongoDB", "Redis", "Oracle DB"),
   },
   {
     key: "sysadmin",
     label: { fr: "Admin Système", en: "Sys Admin" },
-    theme: "side",
+    theme: "sys",
     skills: tech("Linux", "NGINX", "Shell"),
   },
   {
     key: "methodology",
     label: { fr: "Méthodologie", en: "Methodology" },
-    theme: "side",
+    theme: "method",
     skills: tech("Jira", "Kafka", "Generic Tool", "Generic Tool"),
+  },
+  {
+    key: "ai",
+    label: { fr: "Intelligence Artificielle", en: "Artificial Intelligence" },
+    theme: "ai",
+    skills: tech("Machine Learning", "Deep Learning", "Prompt Engineering", "Generative AI", "IA Agents"),
   },
 ];
 
@@ -595,7 +606,6 @@ export const SKILL_BRANCHES: SkillBranch[] = [
 SKILL_BRANCHES[6].skills = [
   { name: "Agile / Scrum", Icon: FiActivity, color: "#009FDA" },
   { name: "Kanban", Icon: FiActivity, color: "#E84C3D" },
-  { name: "Clean Code", Icon: FiRefreshCw, color: "#6DB33F" },
   { name: "SOLID", Icon: FiRefreshCw, color: "#F7DF1E" },
 ];
 
@@ -659,8 +669,8 @@ export const CHARACTER = {
     fr: "Ingénieur Full Stack Java/Angular & DevOps",
     en: "Full Stack Java/Angular & DevOps Engineer",
   },
-  level: 2,
-  xpYears: 1,
+  level: 1,
+  xpYears: 0.8,
   xpLabel: { fr: "AN D'EXPÉRIENCE", en: "YEAR OF XP" },
   location: { fr: "Rennes (35000), France", en: "Rennes (35000), France" },
   mobility: { fr: "Mobilité nationale", en: "Open to national mobility" },

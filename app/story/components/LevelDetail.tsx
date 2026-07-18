@@ -7,6 +7,7 @@ import { STAGES, UI, type Stage, type CareerItem } from "../data";
 import { accent, pick } from "../util";
 import SectionHead from "./SectionHead";
 import { FiCrosshair, FiStar, FiCheck, FiZap, FiRefreshCw } from "react-icons/fi";
+import { GiDinosaurRex } from "react-icons/gi";
 
 const WARM = { base: "#f97316", glow: "#fb923c" };
 
@@ -111,8 +112,8 @@ function ItemCard({ item, stage, index }: { item: CareerItem; stage: Stage; inde
               className="inline-flex items-center gap-1 px-2 py-0.5 rounded font-condensed text-[10px] uppercase tracking-[0.2em]"
               style={{ background: a.base, color: "#1a1206" }}
             >
-              <FiCrosshair size={11} />
-              {item.finalBoss ? (lang === "fr" ? "BOSS FINAL" : "FINAL BOSS") : item.warm ? pick(lang, UI.lifeBoss) : "BOSS"}
+              {item.finalBoss ? <GiDinosaurRex size={11} /> : <FiCrosshair size={11} />}
+              {item.finalBoss ? "BIG BOSS" : item.warm ? pick(lang, UI.lifeBoss) : "BOSS"}
             </span>
             {item.finalBoss && (
               <span className="font-mono text-[10px] uppercase tracking-widest animate-pulse" style={{ color: a.glow }}>

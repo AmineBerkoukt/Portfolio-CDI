@@ -50,12 +50,11 @@ export default function Recruit() {
         {pick(lang, UI.recruitSub)}
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-5xl mx-auto">
+      <div className="max-w-xl mx-auto">
         {/* Identity + guild */}
         <div
-          className={`rounded-2xl border p-6 backdrop-blur-md ${
-            isDark ? "bg-stage-velvet/70 border-stage-red/15" : "bg-white/70 border-stage-azure/40"
-          }`}
+          className={`rounded-2xl border p-6 backdrop-blur-md ${isDark ? "bg-stage-velvet/70 border-stage-red/15" : "bg-white/70 border-stage-azure/40"
+            }`}
         >
           <div className="flex items-start gap-3 mb-5">
             <span
@@ -80,7 +79,7 @@ export default function Recruit() {
           </div>
 
           {/* Direct signal channels */}
-          <div className="space-y-2 mb-6">
+          <div className="space-y-2">
             {contactLinks.map((c, i) => {
               const Icon = c.icon;
               return (
@@ -90,11 +89,10 @@ export default function Recruit() {
                   target={c.href.startsWith("http") ? "_blank" : undefined}
                   rel="noreferrer"
                   whileHover={{ x: isDark ? 4 : 4 }}
-                  className={`story-focus flex items-center gap-3 p-3 rounded-lg border transition-colors ${
-                    isDark
-                      ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30"
-                      : "bg-stage-ivory/60 border-stage-azure/25 hover:border-stage-azure/60"
-                  }`}
+                  className={`story-focus flex items-center gap-3 p-3 rounded-lg border transition-colors ${isDark
+                    ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30"
+                    : "bg-stage-ivory/60 border-stage-azure/25 hover:border-stage-azure/60"
+                    }`}
                 >
                   <span className="p-2 rounded-full" style={{ background: `${a}1a`, color: aGlow }}>
                     <Icon size={16} />
@@ -137,85 +135,6 @@ export default function Recruit() {
             ))}
           </ul>
         </div>
-
-        {/* Send a signal form */}
-        <form
-          onSubmit={submit}
-          className={`rounded-2xl border p-6 backdrop-blur-md flex flex-col ${
-            isDark ? "bg-stage-velvet/70 border-stage-red/15" : "bg-white/70 border-stage-azure/40"
-          }`}
-          aria-label="Send a signal"
-        >
-          <h3 className={`font-condensed text-xl uppercase tracking-wider mb-4 ${isDark ? "text-white" : "text-stage-charcoal"}`}>
-            {pick(lang, UI.recruitSub)}
-          </h3>
-
-          <label className="block mb-3">
-            <span className="font-mono text-[10px] uppercase tracking-widest mb-1 block" style={{ color: aGlow }}>
-              {pick(lang, UI.name)}
-            </span>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              placeholder={pick(lang, UI.placeholderName)}
-              className={`w-full px-3 py-2.5 rounded-lg border bg-transparent font-mono text-sm outline-none focus:border-[color:var(--quest-recruit)] ${
-                isDark ? "border-stage-red/20 text-white placeholder:text-stage-silver/40" : "border-stage-azure/40 text-stage-charcoal placeholder:text-stage-charcoal/40"
-              }`}
-            />
-          </label>
-
-          <label className="block mb-3">
-            <span className="font-mono text-[10px] uppercase tracking-widest mb-1 block" style={{ color: aGlow }}>
-              {pick(lang, UI.email)}
-            </span>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder={pick(lang, UI.placeholderEmail)}
-              className={`w-full px-3 py-2.5 rounded-lg border bg-transparent font-mono text-sm outline-none focus:border-[color:var(--quest-recruit)] ${
-                isDark ? "border-stage-red/20 text-white placeholder:text-stage-silver/40" : "border-stage-azure/40 text-stage-charcoal placeholder:text-stage-charcoal/40"
-              }`}
-            />
-          </label>
-
-          <label className="block mb-4 flex-1">
-            <span className="font-mono text-[10px] uppercase tracking-widest mb-1 block" style={{ color: aGlow }}>
-              {pick(lang, UI.message)}
-            </span>
-            <textarea
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              required
-              rows={5}
-              placeholder={pick(lang, UI.placeholderMessage)}
-              className={`w-full px-3 py-2.5 rounded-lg border bg-transparent font-mono text-sm outline-none resize-none focus:border-[color:var(--quest-recruit)] ${
-                isDark ? "border-stage-red/20 text-white placeholder:text-stage-silver/40" : "border-stage-azure/40 text-stage-charcoal placeholder:text-stage-charcoal/40"
-              }`}
-            />
-          </label>
-
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl font-condensed uppercase tracking-widest text-sm text-white border"
-            style={{ borderColor: a, background: `${a}22`, boxShadow: `0 0 22px ${aGlow}40` }}
-          >
-            <FiSend size={16} />
-            {pick(lang, UI.send)}
-          </motion.button>
-
-          <p
-            aria-live="polite"
-            className="mt-3 font-mono text-[11px] uppercase tracking-widest text-center transition-opacity"
-            style={{ color: aGlow, opacity: sent ? 1 : 0 }}
-          >
-            {pick(lang, UI.signalSent)}
-          </p>
-        </form>
       </div>
     </section>
   );

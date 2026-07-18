@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
@@ -58,6 +59,27 @@ export default function SkillTree() {
   const rootAccent = accent("side");
   const layout = buildLayout();
 
+  const [activeDomains, setActiveDomains] = useState<Set<number>>(new Set());
+  const [hoveredDomain, setHoveredDomain] = useState<number | null>(null);
+
+  const toggleDomain = (index: number, e?: React.MouseEvent) => {
+    setActiveDomains((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+        if (e?.currentTarget) {
+          const target = e.currentTarget;
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: "smooth", block: "center", inline: "center" });
+          }, 50);
+        }
+      }
+      return next;
+    });
+  };
+
   const ring = isDark ? "rgba(255,255,255,0.16)" : "rgba(10,10,15,0.13)";
 
   return (
@@ -77,6 +99,7 @@ export default function SkillTree() {
           {/* connector + ring layer */}
           <svg
             viewBox="0 0 100 100"
+            preserveAspectRatio="none"
             className="absolute inset-0 h-full w-full"
             aria-hidden="true"
           >
@@ -119,23 +142,28 @@ export default function SkillTree() {
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{ duration: reduce ? 0 : 0.6, delay: reduce ? 0 : i * 0.07 }}
                   />
-                  {b.leaves.map((lf, j) => (
-                    <motion.line
-                      key={j}
-                      x1={b.header.x}
-                      y1={b.header.y}
-                      x2={lf.x}
-                      y2={lf.y}
-                      style={{ ...stroke, ...glow, opacity: 0.45 }}
-                      initial={{ pathLength: reduce ? 1 : 0 }}
-                      whileInView={{ pathLength: 1 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{
-                        duration: reduce ? 0 : 0.5,
-                        delay: reduce ? 0 : i * 0.07 + 0.15 + j * 0.03,
-                      }}
-                    />
-                  ))}
+                  {b.leaves.map((lf, j) => {
+                    const isVisible = activeDomains.has(i) || hoveredDomain === i;
+                    return (
+                      <motion.line
+                        key={j}
+                        x1={b.header.x}
+                        y1={b.header.y}
+                        x2={lf.x}
+                        y2={lf.y}
+                        style={{ ...stroke, ...glow }}
+                        initial={false}
+                        animate={{ 
+                          pathLength: isVisible ? 1 : 0, 
+                          opacity: isVisible ? 0.45 : 0 
+                        }}
+                        transition={{
+                          duration: 0.3,
+                          delay: isVisible && !reduce ? j * 0.02 : 0,
+                        }}
+                      />
+                    );
+                  })}
                 </g>
               );
             })}
@@ -152,14 +180,8 @@ export default function SkillTree() {
             }}
           >
             <FiGitBranch size={16} style={{ color: rootAccent.glow }} />
-            <span className="font-condensed text-[9px] uppercase tracking-widest leading-none mt-0.5">
-              {lang === "fr" ? "CLASSE" : "CLASS"}
-            </span>
-            <span
-              className="font-mono text-[9px] tabular-nums leading-none mt-0.5"
-              style={{ color: rootAccent.glow }}
-            >
-              LVL {String(CHARACTER.level).padStart(2, "0")}
+            <span className="font-condensed text-[10px] uppercase tracking-widest leading-tight mt-1 text-center">
+              Amine's<br/>Skills
             </span>
           </div>
 
@@ -167,28 +189,35 @@ export default function SkillTree() {
           {layout.map((b, i) => {
             const branch = SKILL_BRANCHES[i];
             const a = accent(branch.theme);
+            const isActive = activeDomains.has(i);
+            const isHovered = hoveredDomain === i;
             return (
-              <motion.div
+              <motion.button
                 key={branch.key}
                 initial={{ opacity: 0, scale: reduce ? 1 : 0.6 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: reduce ? 0 : 0.4, delay: reduce ? 0 : i * 0.07 }}
-                className="story-focus absolute z-10 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center rounded-full border-2 px-2 py-1 text-center"
+                className="story-focus absolute z-20 flex items-center justify-center rounded-full border-2 px-2 py-1 text-center cursor-pointer transition-colors"
                 style={{
                   left: `${b.header.x}%`,
                   top: `${b.header.y}%`,
+                  x: "-50%",
+                  y: "-50%",
                   width: "15%",
                   borderColor: a.base,
-                  background: isDark ? "rgba(10,10,15,0.85)" : "rgba(255,255,255,0.9)",
-                  color: a.glow,
-                  boxShadow: `0 0 14px ${a.glow}44`,
+                  background: (isActive || isHovered) ? a.base : (isDark ? "rgba(10,10,15,0.85)" : "rgba(255,255,255,0.9)"),
+                  color: (isActive || isHovered) ? (isDark ? "#fff" : "#000") : a.glow,
+                  boxShadow: (isActive || isHovered) ? `0 0 20px ${a.glow}88` : `0 0 14px ${a.glow}44`,
                 }}
+                onMouseEnter={() => setHoveredDomain(i)}
+                onMouseLeave={() => setHoveredDomain(null)}
+                onClick={(e) => toggleDomain(i, e)}
               >
                 <span className="font-condensed text-[10px] uppercase tracking-wide leading-tight">
                   {pick(lang, branch.label)}
                 </span>
-              </motion.div>
+              </motion.button>
             );
           })}
 
@@ -196,6 +225,7 @@ export default function SkillTree() {
           {layout.map((b, i) => {
             const branch = SKILL_BRANCHES[i];
             const a = accent(branch.theme);
+            const isVisible = activeDomains.has(i) || hoveredDomain === i;
             return (
               <div key={branch.key}>
                 {b.leaves.map((lf) => {
@@ -204,31 +234,35 @@ export default function SkillTree() {
                   return (
                     <motion.div
                       key={lf.j}
-                      initial={{ opacity: 0, scale: reduce ? 1 : 0.4 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{
-                        duration: reduce ? 0 : 0.35,
-                        delay: reduce ? 0 : i * 0.07 + 0.2 + lf.j * 0.03,
+                      initial={false}
+                      animate={{ 
+                        opacity: isVisible ? 1 : 0, 
+                        scale: isVisible ? 1 : 0.4,
                       }}
-                      whileHover={{ scale: reduce ? 1 : 1.12, zIndex: 30 }}
-                      className="story-focus absolute z-10 -translate-x-1/2 -translate-y-1/2 flex w-[8%] flex-col items-center gap-0.5 rounded-lg border p-1 text-center"
+                      transition={{
+                        duration: 0.3,
+                        delay: isVisible && !reduce ? lf.j * 0.02 : 0,
+                      }}
+                      whileHover={{ scale: isVisible && !reduce ? 1.08 : 1, zIndex: 30 }}
+                      className="story-focus absolute z-10 flex h-9 w-9 items-center justify-center rounded-full border"
                       style={{
                         left: `${lf.x}%`,
                         top: `${lf.y}%`,
-                        borderColor: `${a.base}66`,
-                        background: isDark ? "rgba(10,10,15,0.82)" : "rgba(255,255,255,0.88)",
-                        boxShadow: `0 0 10px ${a.glow}22`,
+                        x: "-50%",
+                        y: "-50%",
+                        borderColor: `${a.base}99`,
+                        background: isDark ? "rgba(10,10,15,0.9)" : "rgba(255,255,255,0.92)",
+                        boxShadow: `0 0 12px ${a.glow}33`,
+                        pointerEvents: isVisible ? "auto" : "none",
                       }}
                       title={skill.name}
                     >
                       <span style={{ color: skill.color }} className="inline-flex">
-                        <Icon size={13} />
+                        <Icon size={16} />
                       </span>
                       <span
-                        className={`font-mono text-[8px] leading-tight ${
-                          isDark ? "text-stage-silver/90" : "text-stage-charcoal/80"
-                        }`}
+                        className={`pointer-events-none absolute top-full mt-1 whitespace-nowrap font-mono text-[8px] leading-tight text-center ${isDark ? "text-stage-silver/90" : "text-stage-charcoal/80"
+                          }`}
                       >
                         {skill.name}
                       </span>
