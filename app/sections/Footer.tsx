@@ -18,18 +18,10 @@ export default function Footer() {
       `}
     >
       <p
-        className={`font-mono text-[10px] uppercase tracking-widest ${
-          isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"
-        }`}
+        className={`font-mono text-[10px] uppercase tracking-widest ${isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"
+          }`}
       >
         © {new Date().getFullYear()} Amine BERKOUKT — {footerRights}
-      </p>
-      <p
-        className={`font-mono text-[10px] mt-2 ${
-          isDark ? "text-stage-red-glow/30" : "text-stage-azure/50"
-        }`}
-      >
-        {footerBuilt}
       </p>
     </footer>
   );

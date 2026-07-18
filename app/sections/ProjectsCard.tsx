@@ -41,7 +41,6 @@ export default function ProjectsCard() {
           <div className="space-y-4">
             {projectItems.map((proj, i) => {
               const title = t(`projects.${proj.key}.title`) as string;
-              const date = t(`projects.${proj.key}.date`) as string;
               const descRaw = t(`projects.${proj.key}.desc`);
               const desc = Array.isArray(descRaw) ? descRaw : [];
               const tech = t(`projects.${proj.key}.tech`) as string;
@@ -65,12 +64,6 @@ export default function ProjectsCard() {
                       <h3 className={`font-condensed text-base uppercase tracking-wide ${isDark ? "text-white" : "text-stage-charcoal"}`}>
                         {title}
                       </h3>
-                      {date && (
-                        <span className={`font-mono text-[10px] flex items-center gap-1 mt-1 ${isDark ? "text-stage-silver/50" : "text-stage-charcoal/50"}`}>
-                          <FiCalendar size={10} />
-                          {date}
-                        </span>
-                      )}
                     </div>
                   </div>
                   <ul className={`font-mono text-xs leading-relaxed ml-11 mb-2 space-y-1 list-disc pl-1 ${isDark ? "text-stage-silver/70 marker:text-stage-red-glow/60" : "text-stage-charcoal/70 marker:text-stage-azure/70"}`}>

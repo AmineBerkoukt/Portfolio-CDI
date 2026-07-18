@@ -11,6 +11,7 @@ import ExtrasCard from "./sections/ExtrasCard";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 import Reveal from "./components/Reveal";
+import ScrollToTop from "./components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -29,6 +30,7 @@ export default function Home() {
         <Reveal delay={0.4}><Contact /></Reveal>
       </div>
       <Footer />
+      <ScrollToTop />
     </main>
   );
 }

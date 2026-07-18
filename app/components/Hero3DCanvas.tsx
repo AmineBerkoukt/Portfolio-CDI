@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useRef } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import {
   Center,
@@ -50,8 +50,10 @@ function ForceInitialRender() {
 /** The avatar GLTF, auto-centered and normalized so it fits at any native scale. */
 function AvatarModel({
   pointerRef,
+  animTriggerRef,
 }: {
   pointerRef: React.MutableRefObject<HeroPointer>;
+  animTriggerRef: React.MutableRefObject<number>;
 }) {
   const { scene, animations } = useGLTF("/avatar3d.glb");
   const groupRef = useRef<THREE.Group>(null);
@@ -61,7 +63,7 @@ function AvatarModel({
   const avatar = useMemo(() => cloneSkinned(scene), [scene]);
 
   // Bind clips to the skinned model root (not the outer motion group).
-  const { actions, names } = useAnimations(animations, modelRef);
+  const { actions, names, mixer } = useAnimations(animations, modelRef);
 
   // Normalize to a consistent on-screen size regardless of the model's native units.
   const scale = useMemo(() => {
@@ -72,11 +74,21 @@ function AvatarModel({
     return 2.6 / maxDim;
   }, [avatar]);
 
+  // Track which animation is currently playing.
+  const currentClipIndex = useRef(0);
+  const lastTrigger = useRef(0);
+  // Programmatic "excited" animation state (double-click).
+  const excitedState = useRef<{ active: boolean; startTime: number }>({ active: false, startTime: 0 });
+
+  // Find the idle clip name.
+  const idleName = useMemo(
+    () => names.find((name) => /idle/i.test(name)) ?? names[0],
+    [names],
+  );
+
   // Play the idle clip so the avatar leaves its bind (T) pose.
   useEffect(() => {
     console.log("Available animations:", names);
-
-    const idleName = names.find((name) => /idle/i.test(name)) ?? names[0];
     console.log("Playing animation:", idleName);
 
     const action = idleName ? actions?.[idleName] : undefined;
@@ -89,20 +101,114 @@ function AvatarModel({
     action.setLoop(THREE.LoopRepeat, Infinity);
     action.fadeIn(0.4).play();
 
+    // Set the idle index.
+    currentClipIndex.current = idleName ? names.indexOf(idleName) : 0;
+
     return () => {
       action.fadeOut(0.2);
       action.stop();
     };
-  }, [actions, names]);
+  }, [actions, names, idleName]);
+
+  // React to double-click triggers.
+  useEffect(() => {
+    if (names.length === 0 || !actions) return;
+
+    // Crossfade to the next clip, or play "excited" if only one clip.
+    const handleTrigger = () => {
+      if (names.length <= 1) {
+        // Only one clip — trigger the programmatic excited animation.
+        excitedState.current = { active: true, startTime: -1 }; // startTime set in useFrame
+        return;
+      }
+
+      // Cycle to next animation.
+      const prevIndex = currentClipIndex.current;
+      const nextIndex = (prevIndex + 1) % names.length;
+      currentClipIndex.current = nextIndex;
+
+      const prevAction = actions[names[prevIndex]];
+      const nextAction = actions[names[nextIndex]];
+
+      if (prevAction && nextAction) {
+        // If the next clip is the idle, loop it; otherwise play once then return to idle.
+        const isIdle = names[nextIndex] === idleName;
+
+        nextAction.reset();
+        nextAction.setLoop(
+          isIdle ? THREE.LoopRepeat : THREE.LoopOnce,
+          isIdle ? Infinity : 1,
+        );
+        nextAction.clampWhenFinished = !isIdle;
+        nextAction.fadeIn(0.35).play();
+        prevAction.fadeOut(0.35);
+
+        // If it's a one-shot clip, return to idle when it finishes.
+        if (!isIdle) {
+          const onFinished = (e: { action: THREE.AnimationAction }) => {
+            if (e.action === nextAction) {
+              mixer.removeEventListener("finished", onFinished);
+              const idleAction = idleName ? actions[idleName] : undefined;
+              if (idleAction) {
+                currentClipIndex.current = names.indexOf(idleName!);
+                idleAction.reset();
+                idleAction.setLoop(THREE.LoopRepeat, Infinity);
+                idleAction.fadeIn(0.35).play();
+                nextAction.fadeOut(0.35);
+              }
+            }
+          };
+          mixer.addEventListener("finished", onFinished);
+        }
+      }
+    };
+
+    // Poll the trigger ref (lightweight — just a number comparison).
+    const interval = setInterval(() => {
+      if (animTriggerRef.current !== lastTrigger.current) {
+        lastTrigger.current = animTriggerRef.current;
+        handleTrigger();
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [actions, names, idleName, mixer, animTriggerRef]);
+
 
   useFrame((state) => {
     const group = groupRef.current;
     if (!group) return;
 
     const t = state.clock.elapsedTime;
+    const excited = excitedState.current;
 
-    // Gentle vertical float — rotation is now handled by OrbitControls.
-    group.position.y = 0.9 + Math.sin(t * 1.2) * 0.03;
+    if (excited.active) {
+      // Initialize start time on first frame.
+      if (excited.startTime < 0) excited.startTime = t;
+      const elapsed = t - excited.startTime;
+      const duration = 1.2;
+
+      if (elapsed < duration) {
+        const progress = elapsed / duration;
+        const jumpHeight = Math.sin(progress * Math.PI) * 0.5;
+        const spin = progress * Math.PI * 2;
+        const scaleBounce = 1 + Math.sin(progress * Math.PI) * 0.12;
+
+        group.position.y = 0.9 + jumpHeight;
+        group.rotation.y = spin;
+        group.scale.setScalar(scaleBounce);
+      } else {
+        excited.active = false;
+        group.rotation.y = 0;
+        group.scale.setScalar(1);
+      }
+    } else {
+      // Normal float — gentle bob + subtle breathing sway.
+      group.position.y = 0.9 + Math.sin(t * 1.2) * 0.04 + Math.sin(t * 0.5) * 0.015;
+      // Smoothly return rotation/scale to identity if they were offset.
+      group.rotation.y *= 0.92;
+      group.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
+    }
   });
 
   return (
@@ -114,12 +220,164 @@ function AvatarModel({
   );
 }
 
-/** Studio lighting + model. */
-function Scene({
-  pointerRef,
-}: {
-  pointerRef: React.MutableRefObject<HeroPointer>;
-}) {
+// ─── Floating sparkle particles ────────────────────────────────────────
+const PARTICLE_COUNT = 60;
+
+function FloatingParticles() {
+  const meshRef = useRef<THREE.InstancedMesh>(null);
+
+  // Pre-compute random offsets for each particle.
+  const particleData = useMemo(() => {
+    const data = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = 0.8 + Math.random() * 1.6;        // 0.8 – 2.4 distance from center
+      const height = -0.5 + Math.random() * 2.8;       // vertical spread
+      const speed = 0.15 + Math.random() * 0.35;        // orbit speed
+      const phaseY = Math.random() * Math.PI * 2;       // vertical bobbing phase
+      const scaleBase = 0.008 + Math.random() * 0.018;  // tiny sparkle size
+      data.push({ angle, radius, height, speed, phaseY, scaleBase });
+    }
+    return data;
+  }, []);
+
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  useFrame((state) => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+    const t = state.clock.elapsedTime;
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const p = particleData[i];
+      const currentAngle = p.angle + t * p.speed;
+
+      dummy.position.set(
+        Math.cos(currentAngle) * p.radius,
+        p.height + Math.sin(t * 0.8 + p.phaseY) * 0.25,
+        Math.sin(currentAngle) * p.radius,
+      );
+
+      // Pulse scale for twinkling.
+      const pulse = 0.7 + 0.3 * Math.sin(t * 3 + i);
+      const s = p.scaleBase * pulse;
+      dummy.scale.set(s, s, s);
+      dummy.updateMatrix();
+      mesh.setMatrixAt(i, dummy.matrix);
+    }
+    mesh.instanceMatrix.needsUpdate = true;
+  });
+
+  return (
+    <instancedMesh ref={meshRef} args={[undefined, undefined, PARTICLE_COUNT]}>
+      <sphereGeometry args={[1, 8, 8]} />
+      <meshBasicMaterial color="#ffffff" transparent opacity={0.7} />
+    </instancedMesh>
+  );
+}
+
+// ─── Glowing platform ring beneath the avatar ──────────────────────────
+function GlowRing({ isDark }: { isDark: boolean }) {
+  const ringRef = useRef<THREE.Mesh>(null);
+  const ringColor = isDark ? "#a855f7" : "#1a6fe0";
+
+  useFrame((state) => {
+    const ring = ringRef.current;
+    if (!ring) return;
+    const t = state.clock.elapsedTime;
+
+    ring.rotation.z = t * 0.15;
+
+    // Pulsing emissive intensity.
+    const mat = ring.material as THREE.MeshStandardMaterial;
+    mat.emissiveIntensity = 1.2 + Math.sin(t * 1.5) * 0.4;
+  });
+
+  return (
+    <mesh ref={ringRef} position={[0, -0.65, 0]} rotation={[Math.PI / 2, 0, 0]}>
+      <torusGeometry args={[1.1, 0.025, 16, 100]} />
+      <meshStandardMaterial
+        color={ringColor}
+        emissive={ringColor}
+        emissiveIntensity={1.2}
+        transparent
+        opacity={0.6}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
+
+// ─── Second, larger, faded ring ─────────────────────────────────────────
+function OuterGlowRing({ isDark }: { isDark: boolean }) {
+  const ringRef = useRef<THREE.Mesh>(null);
+  const ringColor = isDark ? "#22d3ee" : "#5aa2ff";
+
+  useFrame((state) => {
+    const ring = ringRef.current;
+    if (!ring) return;
+    const t = state.clock.elapsedTime;
+
+    ring.rotation.z = -t * 0.1;
+    const mat = ring.material as THREE.MeshStandardMaterial;
+    mat.emissiveIntensity = 0.8 + Math.sin(t * 1.0 + 1) * 0.3;
+  });
+
+  return (
+    <mesh ref={ringRef} position={[0, -0.65, 0]} rotation={[Math.PI / 2, 0, 0]}>
+      <torusGeometry args={[1.5, 0.015, 16, 120]} />
+      <meshStandardMaterial
+        color={ringColor}
+        emissive={ringColor}
+        emissiveIntensity={0.8}
+        transparent
+        opacity={0.35}
+        toneMapped={false}
+      />
+    </mesh>
+  );
+}
+
+// ─── Orbiting light orbs that cast dynamic highlights ──────────────────
+function OrbitingOrbs({ isDark }: { isDark: boolean }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const color1 = isDark ? "#a855f7" : "#1a6fe0";
+  const color2 = isDark ? "#22d3ee" : "#5aa2ff";
+
+  useFrame((state) => {
+    const g = groupRef.current;
+    if (!g) return;
+    g.rotation.y = state.clock.elapsedTime * 0.4;
+  });
+
+  return (
+    <group ref={groupRef}>
+      {/* Orb 1 — higher, slower orbit */}
+      <group position={[2.0, 0.8, 0]}>
+        <mesh>
+          <sphereGeometry args={[0.06, 16, 16]} />
+          <meshBasicMaterial color={color1} toneMapped={false} />
+        </mesh>
+        <pointLight color={color1} intensity={6} distance={5} />
+      </group>
+
+      {/* Orb 2 — lower, offset orbit */}
+      <group position={[-1.6, -0.1, 1.2]}>
+        <mesh>
+          <sphereGeometry args={[0.045, 16, 16]} />
+          <meshBasicMaterial color={color2} toneMapped={false} />
+        </mesh>
+        <pointLight color={color2} intensity={4} distance={4} />
+      </group>
+    </group>
+  );
+}
+
+/**
+ * Always-visible scene elements: lighting, effects, controls.
+ * Rendered outside Suspense so they appear even while the GLB loads.
+ */
+function SceneEffects({ isDark }: { isDark: boolean }) {
   return (
     <>
       {/* Soft fill so the model is always readable. */}
@@ -148,7 +406,11 @@ function Scene({
         color="#22d3ee"
       />
 
-      <AvatarModel pointerRef={pointerRef} />
+      {/* ── Fancy effects (always visible) ── */}
+      <FloatingParticles />
+      <GlowRing isDark={isDark} />
+      <OuterGlowRing isDark={isDark} />
+      <OrbitingOrbs isDark={isDark} />
 
       <ContactShadows
         position={[0, -0.7, 0]}
@@ -175,7 +437,7 @@ function Scene({
         dampingFactor={0.08}
         rotateSpeed={0.5}
         autoRotate={true}
-        autoRotateSpeed={1.0}
+        autoRotateSpeed={3.4}
         touches={{
           ONE: THREE.TOUCH.ROTATE,
           TWO: THREE.TOUCH.ROTATE,
@@ -281,6 +543,21 @@ export default function Hero3DCanvas({
   const isDark = theme === "dark";
   const bubbleText = t("hero.chatBubble") as string;
 
+  // Shared trigger counter — incremented on double-click, watched by AvatarModel.
+  const animTriggerRef = useRef(0);
+
+  // Double-tap detection for mobile.
+  const lastTapRef = useRef(0);
+  const handlePointerDown = useCallback(() => {
+    const now = Date.now();
+    if (now - lastTapRef.current < 350) {
+      animTriggerRef.current += 1;
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
+    }
+  }, []);
+
   return (
     <ErrorBoundary>
       <div className="relative h-full w-full" style={{ touchAction: "none" }}>
@@ -293,16 +570,21 @@ export default function Hero3DCanvas({
           className="!h-full !w-full"
           resize={{ scroll: false, debounce: { scroll: 0, resize: 0 } }}
           onCreated={({ gl, size }) => {
-            // Force the renderer to adopt the container's actual pixel
-            // dimensions right away.  This prevents the "blank until
-            // scroll" bug caused by the canvas initializing with a
-            // stale or zero size.
             gl.setSize(size.width, size.height, false);
           }}
+          onPointerDown={handlePointerDown}
         >
           <ForceInitialRender />
+
+          {/* Effects render immediately — visible even while the GLB loads. */}
+          <SceneEffects isDark={isDark} />
+
+          {/* The avatar model loads asynchronously inside Suspense. */}
           <Suspense fallback={null}>
-            <Scene pointerRef={pointerRef} />
+            <AvatarModel
+              pointerRef={pointerRef}
+              animTriggerRef={animTriggerRef}
+            />
           </Suspense>
         </Canvas>
         <LoadOverlay />
