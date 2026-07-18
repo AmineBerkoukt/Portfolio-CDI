@@ -7,7 +7,7 @@ import { STAGES, UI, type Stage, type CareerItem } from "../data";
 import { accent, pick } from "../util";
 import SectionHead from "./SectionHead";
 import { FiCrosshair, FiStar, FiCheck, FiZap, FiRefreshCw } from "react-icons/fi";
-import { GiDinosaurRex } from "react-icons/gi";
+import { GiClawSlashes } from "react-icons/gi";
 
 const WARM = { base: "#f97316", glow: "#fb923c" };
 
@@ -112,7 +112,7 @@ function ItemCard({ item, stage, index }: { item: CareerItem; stage: Stage; inde
               className="inline-flex items-center gap-1 px-2 py-0.5 rounded font-condensed text-[10px] uppercase tracking-[0.2em]"
               style={{ background: a.base, color: "#1a1206" }}
             >
-              {item.finalBoss ? <GiDinosaurRex size={11} /> : <FiCrosshair size={11} />}
+              {item.finalBoss ? <GiClawSlashes size={11} /> : <FiCrosshair size={11} />}
               {item.finalBoss ? "BIG BOSS" : item.warm ? pick(lang, UI.lifeBoss) : "BOSS"}
             </span>
             {item.finalBoss && (
@@ -276,9 +276,9 @@ function StageBlock({ stage, index }: { stage: Stage; index: number }) {
           </div>
 
           {/* items, connected by a sub-rail */}
-          <div className="relative pl-6 md:pl-7">
+          <div className="relative pl-8 md:pl-10">
             <span
-              className="absolute left-[7px] md:left-[9px] top-2 bottom-2 w-px"
+              className="absolute left-[16px] md:left-[20px] top-2 bottom-2 w-px -translate-x-1/2"
               style={{ background: isDark ? "rgba(255,255,255,0.14)" : "rgba(10,10,15,0.14)" }}
               aria-hidden="true"
             />
@@ -287,7 +287,7 @@ function StageBlock({ stage, index }: { stage: Stage; index: number }) {
                 <div key={item.id} className="relative">
                   {/* item dot */}
                   <span
-                    className="absolute -left-[22px] md:-left-[26px] top-3 h-2.5 w-2.5 rounded-full border-2"
+                    className="absolute -left-[16px] md:-left-[20px] top-3 h-2.5 w-2.5 rounded-full border-2 -translate-x-1/2"
                     style={{
                       background: isDark ? "var(--stage-velvet)" : "#fff",
                       borderColor: item.finalBoss ? accent("recruit").base : item.kind === "boss" ? a.base : `${a.base}88`,

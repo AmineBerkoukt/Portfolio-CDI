@@ -7,7 +7,7 @@ import { STAGES, UI, type Stage, type LevelStatus } from "../data";
 import { accent, pick, scrollToId } from "../util";
 import SectionHead from "./SectionHead";
 import { FiCheck, FiZap, FiRefreshCw, FiChevronRight, FiFlag, FiCrosshair } from "react-icons/fi";
-import { GiDinosaurRex } from "react-icons/gi";
+import { GiClawSlashes } from "react-icons/gi";
 
 // Serpentine route through the 6 stage coordinates (viewBox 0..100 space).
 const ROUTE_D =
@@ -55,7 +55,7 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
         style={{
           background: isDark ? "var(--stage-velvet)" : "#fff",
           border: `3px solid ${a.base}`,
-          color: a.glow,
+          color: isDark ? a.glow : a.base,
           boxShadow: `0 0 18px ${a.glow}55, inset 0 0 10px ${a.base}33`,
           ["--node-glow" as string]: a.glow,
           ["--node-ring" as string]: a.base,
@@ -65,7 +65,7 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
           className="absolute inset-0 rounded-full"
           style={{ background: a.base, opacity: isDark ? 0.18 : 0.08 }}
         />
-        <span className="relative font-bold tabular-nums">{stage.num}</span>
+        <span className="relative font-bold tabular-nums" style={{ color: isDark ? a.glow : a.base }}>{stage.num}</span>
       </span>
 
       {/* banner ribbon */}
@@ -81,7 +81,7 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
         <span className="block truncate">{pick(lang, stage.title)}</span>
         <span
           className="mt-0.5 flex items-center justify-center gap-1"
-          style={{ color: a.glow }}
+          style={{ color: isDark ? a.glow : a.base }}
         >
           <StatusIcon status={stage.status} />
           {pick(lang, UI.status[stage.status])}
@@ -91,7 +91,7 @@ function MapNode({ stage, isDark }: { stage: Stage; isDark: boolean }) {
             className="mt-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-condensed text-[9px] tracking-widest"
             style={{ background: "var(--quest-boss)", color: "#1a1206" }}
           >
-            {hasFinalBoss ? <GiDinosaurRex size={9} /> : <FiCrosshair size={9} />} {hasFinalBoss ? "BIG BOSS" : "BOSS"}
+            {hasFinalBoss ? <GiClawSlashes size={9} /> : <FiCrosshair size={9} />} {hasFinalBoss ? "BIG BOSS" : "BOSS"}
           </span>
         )}
       </span>
@@ -320,7 +320,7 @@ export default function WorldMap() {
                   style={
                     {
                       border: `2px solid ${a.base}`,
-                      color: a.glow,
+                      color: isDark ? a.glow : a.base,
                       ["--node-glow" as string]: a.glow,
                       ["--node-ring" as string]: a.base,
                       background: isDark ? "var(--stage-velvet)" : "#fff",
@@ -334,7 +334,7 @@ export default function WorldMap() {
                     <FiFlag size={13} style={{ color: a.base }} className="shrink-0" />
                     {pick(lang, s.title)}
                   </span>
-                  <span className={`block font-mono text-[10px] uppercase tracking-wide mt-0.5 flex items-center gap-1`} style={{ color: a.glow }}>
+                  <span className={`block font-mono text-[10px] uppercase tracking-wide mt-0.5 flex items-center gap-1`} style={{ color: isDark ? a.glow : a.base }}>
                     <StatusIcon status={s.status} />
                     {pick(lang, UI.status[s.status])} · {pick(lang, s.period)}
                   </span>
@@ -343,7 +343,7 @@ export default function WorldMap() {
                       className="mt-1 inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-condensed text-[9px] tracking-widest"
                       style={{ background: "var(--quest-boss)", color: "#1a1206" }}
                     >
-                      {hasFinalBoss ? <GiDinosaurRex size={9} /> : <FiCrosshair size={9} />} {hasFinalBoss ? "BIG BOSS" : "BOSS"}
+                      {hasFinalBoss ? <GiClawSlashes size={9} /> : <FiCrosshair size={9} />} {hasFinalBoss ? "BIG BOSS" : "BOSS"}
                     </span>
                   )}
                 </span>

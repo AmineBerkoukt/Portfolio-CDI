@@ -56,7 +56,7 @@ export default function SkillTree() {
   const { lang } = useI18n();
   const isDark = theme === "dark";
   const reduce = useReducedMotion();
-  const rootAccent = accent("side");
+  const rootAccent = isDark ? accent("recruit") : accent("academic");
   const layout = buildLayout();
 
   const [activeDomains, setActiveDomains] = useState<Set<number>>(new Set());
@@ -77,6 +77,15 @@ export default function SkillTree() {
         }
       }
       return next;
+    });
+  };
+
+  const toggleAllDomains = () => {
+    setActiveDomains((prev) => {
+      if (prev.size === SKILL_BRANCHES.length) {
+        return new Set();
+      }
+      return new Set(SKILL_BRANCHES.map((_, i) => i));
     });
   };
 
@@ -106,21 +115,43 @@ export default function SkillTree() {
             {/* concentric rings */}
             <circle cx={C} cy={C} r={14} fill="none" stroke={ring} strokeWidth={0.4} />
             <circle cx={C} cy={C} r={28} fill="none" stroke={ring} strokeWidth={0.4} />
-            <circle cx={C} cy={C} r={47} fill="none" stroke={ring} strokeWidth={0.4} />
-            {/* pie dividers between branches */}
+            {/* pie dividers between branches and conditional 3rd arcs */}
             {SKILL_BRANCHES.map((_, i) => {
               const a = -90 + (i + 0.5) * STEP;
               const ar = (a * Math.PI) / 180;
+              const isDomainActive = activeDomains.has(i) || hoveredDomain === i;
+              const nextDomainActive = activeDomains.has((i + 1) % SKILL_BRANCHES.length) || hoveredDomain === ((i + 1) % SKILL_BRANCHES.length);
+              
+              // Divider extends to 47 if this domain or the next domain is active, else 28
+              const rDivider = (isDomainActive || nextDomainActive) ? 47 : 28;
+
+              // Arc points for the 3rd ring section (if active)
+              const startA = -90 + (i - 0.5) * STEP;
+              const startAr = (startA * Math.PI) / 180;
+              const x1 = C + 47 * Math.cos(startAr);
+              const y1 = C + 47 * Math.sin(startAr);
+              const x2 = C + 47 * Math.cos(ar);
+              const y2 = C + 47 * Math.sin(ar);
+
               return (
-                <line
-                  key={i}
-                  x1={C}
-                  y1={C}
-                  x2={C + 47 * Math.cos(ar)}
-                  y2={C + 47 * Math.sin(ar)}
-                  stroke={ring}
-                  strokeWidth={0.3}
-                />
+                <g key={i}>
+                  <line
+                    x1={C}
+                    y1={C}
+                    x2={C + rDivider * Math.cos(ar)}
+                    y2={C + rDivider * Math.sin(ar)}
+                    stroke={ring}
+                    strokeWidth={0.3}
+                  />
+                  {isDomainActive && (
+                    <path
+                      d={`M ${x1} ${y1} A 47 47 0 0 1 ${x2} ${y2}`}
+                      fill="none"
+                      stroke={ring}
+                      strokeWidth={0.4}
+                    />
+                  )}
+                </g>
               );
             })}
 
@@ -170,20 +201,43 @@ export default function SkillTree() {
           </svg>
 
           {/* hub */}
-          <div
-            className="story-focus absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex h-[13%] w-[13%] flex-col items-center justify-center rounded-full border-2 text-center"
+          <motion.button
+            className="story-focus absolute left-1/2 top-1/2 z-20 flex h-[13%] w-[13%] flex-col items-center justify-center rounded-full border-2 text-center cursor-pointer"
             style={{
+              x: "-50%",
+              y: "-50%",
               borderColor: rootAccent.base,
-              background: `${rootAccent.base}22`,
+              background: `color-mix(in srgb, ${rootAccent.base} 15%, ${isDark ? "var(--stage-black)" : "var(--stage-cream)"})`,
               color: isDark ? "#fff" : "var(--stage-charcoal)",
-              boxShadow: `0 0 22px ${rootAccent.glow}55, inset 0 0 12px ${rootAccent.base}33`,
             }}
+            animate={{
+              boxShadow: [
+                `0 0 12px color-mix(in srgb, ${rootAccent.glow} 30%, transparent), inset 0 0 10px color-mix(in srgb, ${rootAccent.base} 20%, transparent)`,
+                `0 0 35px color-mix(in srgb, ${rootAccent.glow} 90%, transparent), inset 0 0 20px color-mix(in srgb, ${rootAccent.base} 50%, transparent)`,
+                `0 0 12px color-mix(in srgb, ${rootAccent.glow} 30%, transparent), inset 0 0 10px color-mix(in srgb, ${rootAccent.base} 20%, transparent)`
+              ],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={toggleAllDomains}
+            title="Toggle All Skills"
           >
             <FiGitBranch size={16} style={{ color: rootAccent.glow }} />
-            <span className="font-condensed text-[10px] uppercase tracking-widest leading-tight mt-1 text-center">
+            <span 
+              className="font-condensed text-[10px] uppercase tracking-widest leading-tight mt-1 text-center transition-colors"
+              style={{
+                color: rootAccent.glow,
+                textShadow: `0 0 10px ${rootAccent.glow}88`
+              }}
+            >
               Amine's<br/>Skills
             </span>
-          </div>
+          </motion.button>
 
           {/* branch headers */}
           {layout.map((b, i) => {

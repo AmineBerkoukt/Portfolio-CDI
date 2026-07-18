@@ -64,7 +64,7 @@ export default function StoryApp() {
     <main className="relative min-h-screen">
       <StoryHeader />
       <TitleScreen />
-      <div className="max-w-7xl mx-auto lg:px-8 lg:grid lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-8 pb-16">
+      <div className="max-w-[1440px] mx-auto lg:px-8 lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12 pb-16">
         <HUD />
         <div className="min-w-0">
           <WorldMap />

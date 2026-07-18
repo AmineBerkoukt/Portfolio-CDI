@@ -7,11 +7,12 @@ import { useI18n } from "../components/I18nProvider";
 import type { HeroPointer } from "../components/Hero3DCanvas";
 import Hero3DCanvas from "../components/Hero3DCanvas";
 import HeroCanvasLoader from "../components/HeroCanvasLoader";
-import { FiDownload } from "react-icons/fi";
+import { FiDownload, FiZap } from "react-icons/fi";
+import Link from "next/link";
 
 export default function Hero() {
   const { theme } = useTheme();
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const isDark = theme === "dark";
 
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -114,24 +115,48 @@ export default function Hero() {
             </p>
           )}
 
-          <motion.a
-            href="/assets/resume.pdf"
-            download="Amine-Berkoukt-Resume.pdf"
-            className={`mt-6 inline-flex items-center gap-3 cue-button rounded-full px-6 py-3 ${
-              isDark
-                ? "bg-stage-red/20 text-white border border-stage-red/40 hover:bg-stage-red/30"
-                : "cue-button-light bg-stage-azure/35 text-stage-charcoal border border-stage-azure/70 hover:bg-stage-azure/30"
-            }`}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onMouseEnter={() => setCtaHovered(true)}
-            onMouseLeave={() => setCtaHovered(false)}
-            onTouchStart={() => setCtaHovered(true)}
-            onTouchEnd={() => setCtaHovered(false)}
-          >
-            <FiDownload size={16} />
-            <span className="font-condensed uppercase tracking-widest text-sm">{heroCta}</span>
-          </motion.a>
+          <div className="mt-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              animate={{
+                boxShadow: isDark
+                  ? ["0 0 15px rgba(196,30,58,0.4)", "0 0 35px rgba(255,45,85,0.8)", "0 0 15px rgba(196,30,58,0.4)"]
+                  : ["0 0 15px rgba(26,111,224,0.4)", "0 0 30px rgba(90,162,255,0.8)", "0 0 15px rgba(26,111,224,0.4)"]
+              }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className={`rounded-full border overflow-hidden ${
+                isDark ? "bg-stage-red border-stage-red-glow" : "bg-stage-azure border-stage-azure-glow"
+              }`}
+            >
+              <Link 
+                href="/story"
+                className="inline-flex items-center gap-3 px-8 py-3.5 font-condensed text-[17px] uppercase tracking-[0.15em] text-white"
+              >
+                <FiZap size={18} />
+                {lang === "fr" ? "CV façon jeu vidéo" : "CV as a game"}
+              </Link>
+            </motion.div>
+
+            <motion.a
+              href="/assets/resume.pdf"
+              download="Amine-Berkoukt-Resume.pdf"
+              className={`inline-flex items-center gap-3 cue-button rounded-full px-6 py-3 ${
+                isDark
+                  ? "bg-stage-red/20 text-white border border-stage-red/40 hover:bg-stage-red/30"
+                  : "cue-button-light bg-stage-azure/10 text-stage-charcoal border border-stage-azure/40 hover:bg-stage-azure/20"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onMouseEnter={() => setCtaHovered(true)}
+              onMouseLeave={() => setCtaHovered(false)}
+              onTouchStart={() => setCtaHovered(true)}
+              onTouchEnd={() => setCtaHovered(false)}
+            >
+              <FiDownload size={16} />
+              <span className="font-condensed uppercase tracking-widest text-sm">{heroCta}</span>
+            </motion.a>
+          </div>
         </div>
 
         {/* RIGHT — interactive 3D avatar canvas */}

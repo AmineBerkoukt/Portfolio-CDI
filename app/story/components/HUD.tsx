@@ -31,7 +31,7 @@ function XpBar({ isDark }: { isDark: boolean }) {
   const inView = useInView(ref, { once: true, amount: 0.6 });
   const reduce = useReducedMotion();
   const { lang } = useI18n();
-  const pct = 30; // career progress toward the next level-up (early in the run)
+  const pct = 80; // career progress toward the next level-up (0.8 years)
   const muted = isDark ? "text-stage-silver/70" : "text-stage-charcoal/60";
   return (
     <div ref={ref} className="w-full">
@@ -98,7 +98,9 @@ function NavList({ active, isDark }: { active: string; isDark: boolean }) {
                   ? isDark
                     ? "text-white"
                     : "text-stage-charcoal"
-                  : "text-stage-silver/70"
+                  : isDark
+                    ? "text-stage-silver/70"
+                    : "text-stage-charcoal/50"
               }`}
             >
               {pick(lang, n.label)}
