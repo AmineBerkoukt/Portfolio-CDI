@@ -1,17 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiMessageCircle } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 export default function LanguagesCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   const languages = [
     { key: "french", level: 90 },
@@ -31,16 +28,12 @@ export default function LanguagesCard() {
         >
           <div className="space-y-4">
             {languages.map((lang, i) => (
-              <motion.div
+              <div
                 key={lang.key}
                 className={`
                   p-4 rounded-lg
                   ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
-                initial={restoredScroll ? false : { opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
@@ -67,18 +60,15 @@ export default function LanguagesCard() {
                     ${isDark ? "bg-stage-black/60" : "bg-stage-cream/60"}
                   `}
                 >
-                  <motion.div
+                  <div
                     className={`
                       h-full rounded-full
                       ${isDark ? "bg-gradient-to-r from-stage-red to-stage-red-glow" : "bg-gradient-to-r from-stage-azure to-sky-300"}
                     `}
-                    initial={restoredScroll ? false : { width: 0 }}
-                    whileInView={{ width: `${lang.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, delay: 0.5 + i * 0.2, ease: "easeOut" }}
+                    style={{ width: `${lang.level}%` }}
                   />
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </SceneCard>

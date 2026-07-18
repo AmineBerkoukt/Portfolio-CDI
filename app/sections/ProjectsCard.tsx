@@ -1,11 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiTool, FiCalendar, FiGitBranch, FiGrid, FiCpu, FiCamera, FiFileText, FiSmile, FiHome, FiShoppingCart, FiBookOpen, FiPenTool, FiMic } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 function safeArray(val: any): string[] {
   return Array.isArray(val) ? val : [];
@@ -15,7 +13,6 @@ export default function ProjectsCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   const projectItems = [
     { key: "devops", icon: FiGitBranch },
@@ -50,16 +47,12 @@ export default function ProjectsCard() {
               const tech = t(`projects.${proj.key}.tech`) as string;
 
               return (
-                <motion.div
+                <div
                   key={proj.key}
                   className={`
                     p-4 rounded-lg
                     ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                   `}
-                  initial={restoredScroll ? false : { opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: Math.min(i * 0.08, 0.6) }}
                 >
                   <div className="flex items-start gap-3 mb-2">
                     <div className={`
@@ -94,7 +87,7 @@ export default function ProjectsCard() {
                       {tech}
                     </span>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

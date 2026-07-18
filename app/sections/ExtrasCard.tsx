@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
@@ -29,16 +28,12 @@ export default function ExtrasCard() {
         >
           <div className="space-y-4">
             {items.map((item, i) => (
-              <motion.div
+              <div
                 key={i}
                 className={`
                   flex items-start gap-3 p-4 rounded-lg
                   ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
               >
                 <div
                   className={`
@@ -55,7 +50,7 @@ export default function ExtrasCard() {
                 >
                   {item}
                 </span>
-              </motion.div>
+              </div>
             ))}
           </div>
         </SceneCard>

@@ -1,11 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiBriefcase, FiCalendar, FiTool } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 function safeArray(val: any): string[] {
   return Array.isArray(val) ? val : [];
@@ -15,7 +13,6 @@ export default function ExperienceCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   const experiences = [
     { key: "zenika", icon: FiBriefcase },
@@ -42,16 +39,12 @@ export default function ExperienceCard() {
               const tech = t(`experience.${exp.key}.tech`) as string;
 
               return (
-                <motion.div
+                <div
                   key={exp.key}
                   className={`
                     p-4 rounded-lg
                     ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                   `}
-                  initial={restoredScroll ? false : { opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.2 }}
                 >
                   <div className="flex items-start gap-3 mb-3">
                     <div className={`
@@ -92,7 +85,7 @@ export default function ExperienceCard() {
                       {tech}
                     </span>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

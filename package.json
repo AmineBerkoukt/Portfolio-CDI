@@ -28,5 +28,8 @@
     "tailwindcss": "^3.4.17",
     "three": "^0.185.1",
     "typescript": "^5.7.0"
+  },
+  "devDependencies": {
+    "@gltf-transform/cli": "^4.4.1"
   }
 }

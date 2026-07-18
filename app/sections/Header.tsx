@@ -46,9 +46,6 @@ export default function Header() {
           ${isScrolled ? "py-2" : "py-4"}
           ${isDark ? "bg-stage-black/90 backdrop-blur-md border-b border-stage-red/20" : "bg-stage-cream/90 backdrop-blur-md border-b border-stage-azure/45"}
         `}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           {/* Brand */}

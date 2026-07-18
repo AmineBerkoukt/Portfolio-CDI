@@ -1,17 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiBook, FiAward } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 export default function EducationCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   const educationItems = [
     {
@@ -40,16 +37,12 @@ export default function EducationCard() {
         >
           <div className="space-y-4">
             {educationItems.map((item, i) => (
-              <motion.div
+              <div
                 key={i}
                 className={`
                   flex items-start gap-4 p-4 rounded-lg
                   ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
-                initial={restoredScroll ? false : { opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
               >
                 <div className={`
                   p-2 rounded-full
@@ -68,7 +61,7 @@ export default function EducationCard() {
                     {item.date as string}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </SceneCard>

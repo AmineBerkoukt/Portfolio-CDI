@@ -14,7 +14,6 @@ import {
 } from "react-icons/si";
 import { FaJava, FaCss3Alt, FaDatabase, FaVial, FaBug, FaMicrosoft } from "react-icons/fa";
 import { FiTool, FiCheckCircle } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 // Official Microsoft C# logo (real vector paths from the Microsoft C# brand).
 const CSharpIcon = ({
@@ -128,7 +127,6 @@ export default function SkillsCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   return (
     <section id="skills" className="scroll-margin py-10 px-4 md:px-8">
@@ -142,12 +140,8 @@ export default function SkillsCard() {
         >
           <div className="space-y-6">
             {skillGroups.map((group, gi) => (
-              <motion.div
+              <div
                 key={group.key}
-                initial={restoredScroll ? false : { opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: gi * 0.1 }}
               >
                 <h3
                   className={`font-condensed text-sm uppercase tracking-widest mb-3 ${
@@ -180,7 +174,7 @@ export default function SkillsCard() {
                     );
                   })}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </SceneCard>

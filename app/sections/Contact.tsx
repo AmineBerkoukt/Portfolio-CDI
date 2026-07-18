@@ -16,15 +16,12 @@ export default function Contact() {
         <div className="section-head" aria-hidden="true">
           <span className="section-title">{t("contact.title") as string}</span>
         </div>
-        <motion.div
+        <div
           className={`
             relative w-full max-w-4xl mx-auto
             ${isDark ? "bg-stage-velvet/80 border border-stage-red/20" : "bg-white/80 border border-stage-azure/45"}
             backdrop-blur-md rounded-xl overflow-hidden
           `}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
         >
           <div className="p-8 md:p-10">
 
@@ -89,7 +86,7 @@ export default function Contact() {
               </motion.a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

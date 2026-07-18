@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { useTheme } from "./ThemeProvider";
 
 interface SceneCardProps {
@@ -23,11 +21,6 @@ export default function SceneCard({
 }: SceneCardProps) {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const [restoredScroll, setRestoredScroll] = useState(false);
-
-  useEffect(() => {
-    setRestoredScroll(window.scrollY > 0);
-  }, []);
 
   return (
     <div className="w-full">
@@ -36,14 +29,8 @@ export default function SceneCard({
         <span className="section-title">{title}</span>
       </div>
 
-      <motion.div
-        initial={restoredScroll ? false : { opacity: 0, y: 50, scale: 0.9 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`${width} ${className}`}
-      >
-        <motion.div
+      <div className={`${width} ${className}`}>
+        <div
           className={`
             relative rounded-2xl p-6 md:p-8 overflow-hidden mx-auto
             ${isDark ? "bg-stage-velvet/80 border border-stage-red/20" : "bg-white/80 border border-stage-azure/45"}
@@ -62,6 +49,7 @@ export default function SceneCard({
               ${isDark ? "bg-gradient-to-br from-stage-red/30 to transparent" : "bg-gradient-to-br from-stage-azure/30 to transparent"}
             `}
           />
+
           {/* Title (hidden — shown on the divider instead) */}
           <h2
             className={`
@@ -73,8 +61,8 @@ export default function SceneCard({
           </h2>
 
           <div>{children}</div>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

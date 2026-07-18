@@ -11,7 +11,6 @@ import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiAward } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 const certList = [
   { key: "oracle17", color: "#F80000", image: java17 },
@@ -25,7 +24,6 @@ export default function CertificationsCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   return (
     <section id="certifications" className="scroll-margin py-10 px-4 md:px-8">
@@ -45,10 +43,6 @@ export default function CertificationsCard() {
                   flex items-center gap-4 p-4 rounded-lg
                   ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
-                initial={restoredScroll ? false : { opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
                 whileHover={{ scale: 1.02 }}
               >
                 <div

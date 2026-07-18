@@ -81,44 +81,35 @@ export default function Hero() {
       <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-start gap-8 px-6 py-6 md:py-8 lg:grid-cols-2 lg:gap-10 lg:py-8">
         {/* LEFT — text / introduction */}
         <div className="text-left">
-          <motion.h1
+          <h1
             className={`h1 ${
               isDark ? "text-white text-glow" : "text-stage-charcoal"
             }`}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           >
             {heroName}
-          </motion.h1>
+          </h1>
 
           <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1">
             {titleWords.map((word, i) => (
-              <motion.span
+              <span
                 key={i}
                 className={`text-xl uppercase tracking-wider md:text-2xl lg:text-3xl ${
                   isDark ? "text-stage-silver" : "text-stage-charcoal/80"
                 }`}
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 + i * 0.08, ease: "backOut" }}
               >
                 {word}
-              </motion.span>
+              </span>
             ))}
           </div>
 
           {hasTagline && (
-            <motion.p
+            <p
               className={`mt-4 break-words max-w-[400px] font-mono text-base leading-tight ${
                 isDark ? "text-stage-silver/80" : "text-stage-charcoal/70"
               }`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.9 }}
             >
               {heroTagline}
-            </motion.p>
+            </p>
           )}
 
           <motion.a
@@ -129,9 +120,6 @@ export default function Hero() {
                 ? "bg-stage-red/20 text-white border border-stage-red/40 hover:bg-stage-red/30"
                 : "cue-button-light bg-stage-azure/35 text-stage-charcoal border border-stage-azure/70 hover:bg-stage-azure/30"
             }`}
-            initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 1.1, type: "spring" }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
