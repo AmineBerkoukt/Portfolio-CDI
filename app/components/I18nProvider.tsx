@@ -26,7 +26,7 @@ const translations = {
     hero: {
       name: "Amine BERKOUKT",
       title: "Full Stack Java/Angular & DevOps Engineer",
-      tagline: "Dual degree Engineer",
+      tagline: "AI Enthusiast",
       cta: "Download Resume",
       cue: "ACT I — OPENING NIGHT",
       chatBubble: "Recruit me, you won't regret it!",
@@ -278,7 +278,7 @@ const translations = {
     hero: {
       name: "Amine BERKOUKT",
       title: "Ingénieur en Développement Full Stack Java/Angular et DevOps",
-      tagline: "Ingénieur doublement diplomé",
+      tagline: "Passionné d'IA",
       cta: "Télécharger le CV",
       cue: "ACTE I — PREMIÈRE",
       chatBubble: "Recrutez-moi, vous ne le regretterez pas !",
