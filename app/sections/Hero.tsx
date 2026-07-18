@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
@@ -15,6 +15,8 @@ export default function Hero() {
   const isDark = theme === "dark";
 
   const sectionRef = useRef<HTMLElement | null>(null);
+  // Whether the user is hovering the "Download Resume" button.
+  const [ctaHovered, setCtaHovered] = useState(false);
   // Latest pointer position (normalized to [-1, 1]) shared with the 3D canvas
   // without triggering re-renders on every mouse move.
   const pointer = useRef<HeroPointer>({ x: 0, y: 0 });
@@ -122,6 +124,10 @@ export default function Hero() {
             }`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onMouseEnter={() => setCtaHovered(true)}
+            onMouseLeave={() => setCtaHovered(false)}
+            onTouchStart={() => setCtaHovered(true)}
+            onTouchEnd={() => setCtaHovered(false)}
           >
             <FiDownload size={16} />
             <span className="font-condensed uppercase tracking-widest text-sm">{heroCta}</span>
@@ -130,6 +136,7 @@ export default function Hero() {
 
         {/* RIGHT — interactive 3D avatar canvas */}
         <div className="relative h-[55vh] w-full min-h-[420px] lg:h-[80vh]">
+          {/* Existing radial tint */}
           <div
             className={`pointer-events-none absolute inset-0 rounded-3xl ${
               isDark
@@ -137,7 +144,87 @@ export default function Hero() {
                 : "bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.08),transparent_60%)]"
             }`}
           />
-          <Hero3DCanvas pointerRef={pointer} />
+
+          {/* ── Light-mode azure motifs ── */}
+          {!isDark && (
+            <>
+              {/* Soft azure glow */}
+              <div
+                className="pointer-events-none absolute inset-0 rounded-3xl"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 55%, rgba(26,111,224,0.28) 0%, transparent 55%)",
+                }}
+              />
+
+              {/* Concentric rings */}
+              <div
+                className="pointer-events-none absolute rounded-full border-2 border-stage-azure/30"
+                style={{
+                  width: "70%",
+                  height: "70%",
+                  top: "15%",
+                  left: "15%",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute rounded-full border border-stage-azure/20"
+                style={{
+                  width: "90%",
+                  height: "90%",
+                  top: "5%",
+                  left: "5%",
+                }}
+              />
+              <div
+                className="pointer-events-none absolute rounded-full border border-dashed border-stage-azure/20"
+                style={{
+                  width: "50%",
+                  height: "50%",
+                  top: "25%",
+                  left: "25%",
+                }}
+              />
+
+              {/* Floating dots */}
+              <div
+                className="pointer-events-none absolute h-3 w-3 rounded-full bg-stage-azure/50 animate-float"
+                style={{ top: "18%", left: "22%" }}
+              />
+              <div
+                className="pointer-events-none absolute h-2.5 w-2.5 rounded-full bg-stage-azure-glow/55 animate-float"
+                style={{ top: "72%", right: "18%", animationDelay: "2s" }}
+              />
+              <div
+                className="pointer-events-none absolute h-3.5 w-3.5 rounded-full bg-stage-azure/40 animate-float"
+                style={{ top: "35%", right: "12%", animationDelay: "4s" }}
+              />
+              <div
+                className="pointer-events-none absolute h-2.5 w-2.5 rounded-full bg-stage-azure-glow/45 animate-float"
+                style={{ bottom: "22%", left: "16%", animationDelay: "1s" }}
+              />
+              <div
+                className="pointer-events-none absolute h-3 w-3 rounded-full bg-stage-azure/45 animate-float"
+                style={{ top: "55%", left: "10%", animationDelay: "3s" }}
+              />
+
+              {/* Small cross accents */}
+              <div
+                className="pointer-events-none absolute font-mono text-stage-azure/40 text-xl select-none"
+                style={{ top: "12%", right: "25%" }}
+              >
+                +
+              </div>
+              <div
+                className="pointer-events-none absolute font-mono text-stage-azure/35 text-base select-none"
+                style={{ bottom: "18%", left: "28%" }}
+              >
+                +
+              </div>
+            </>
+          )}
+
+          <Hero3DCanvas pointerRef={pointer} showBubble={ctaHovered} />
         </div>
       </div>
     </section>

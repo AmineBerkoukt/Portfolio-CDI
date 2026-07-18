@@ -26,9 +26,10 @@ const translations = {
     hero: {
       name: "Amine BERKOUKT",
       title: "Full Stack Java/Angular & DevOps Engineer",
-      tagline: "Full Stack Engineer. Stage lights up. Curtain rises.",
+      tagline: "Dual degree Engineer",
       cta: "Download Resume",
       cue: "ACT I — OPENING NIGHT",
+      chatBubble: "Recruit me, you won't regret it!",
     },
     about: {
       title: "Profile",
@@ -280,6 +281,7 @@ const translations = {
       tagline: "Ingénieur doublement diplomé",
       cta: "Télécharger le CV",
       cue: "ACTE I — PREMIÈRE",
+      chatBubble: "Recrutez-moi, vous ne le regretterez pas !",
     },
     about: {
       title: "Profil",
@@ -517,7 +519,7 @@ const translations = {
 
 const I18nContext = createContext<I18nContextType>({
   lang: "fr",
-  toggleLang: () => {},
+  toggleLang: () => { },
   t: () => "",
 });
 

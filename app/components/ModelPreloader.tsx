@@ -1,13 +1,15 @@
 "use client";
 
+import { useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 
-// Start the avatar GLB download at the very first client render — before the
-// Hero (and its canvas) even mounts — so the model is decoded and ready the
-// instant the canvas appears at the top of the page, instead of popping in
-// later once the heavy page has finished rendering.
-useGLTF.preload("/avatar3d.glb");
-
+// Kick off the avatar GLB download on the client as early as possible —
+// before the Hero canvas mounts — so it's decoded and ready by the time the
+// model renders. Runs in an effect (not at module scope) so it never
+// executes during SSR.
 export default function ModelPreloader() {
+  useEffect(() => {
+    useGLTF.preload("/avatar3d.glb");
+  }, []);
   return null;
 }
