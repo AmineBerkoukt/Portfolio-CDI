@@ -1,11 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiBriefcase, FiCalendar, FiTool } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 function safeArray(val: any): string[] {
   return Array.isArray(val) ? val : [];
@@ -15,7 +13,6 @@ export default function ExperienceCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   const experiences = [
     { key: "zenika", icon: FiBriefcase },
@@ -24,14 +21,14 @@ export default function ExperienceCard() {
   ];
 
   return (
-    <section id="experience" className="scroll-margin py-16 px-4 md:px-8">
+    <section id="experience" className="scroll-margin py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex justify-center">
         <SceneCard
           cue={t("experience.cue") as string}
           title={t("experience.title") as string}
           initialX={0}
           initialY={0}
-          width="w-full max-w-3xl"
+          width="w-full max-w-4xl mx-auto"
         >
           <div className="space-y-6">
             {experiences.map((exp, i) => {
@@ -42,21 +39,17 @@ export default function ExperienceCard() {
               const tech = t(`experience.${exp.key}.tech`) as string;
 
               return (
-                <motion.div
+                <div
                   key={exp.key}
                   className={`
                     p-4 rounded-lg
-                    ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-gold/10"}
+                    ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                   `}
-                  initial={restoredScroll ? false : { opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.2 }}
                 >
                   <div className="flex items-start gap-3 mb-3">
                     <div className={`
                       p-2 rounded-full mt-1
-                      ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}
+                      ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}
                     `}>
                       <exp.icon size={18} />
                     </div>
@@ -65,7 +58,7 @@ export default function ExperienceCard() {
                         {role}
                       </h3>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className={`font-mono text-xs ${isDark ? "text-stage-red-glow/80" : "text-stage-gold/80"}`}>
+                        <span className={`font-mono text-xs ${isDark ? "text-stage-red-glow/80" : "text-stage-azure/90"}`}>
                           {company}
                         </span>
                         <span className={`font-mono text-[10px] ${isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"}`}>|</span>
@@ -85,14 +78,14 @@ export default function ExperienceCard() {
                   </ul>
                   <div className={`
                     mt-3 ml-11 flex items-start gap-2 p-2 rounded
-                    ${isDark ? "bg-stage-red/5" : "bg-stage-gold/5"}
+                    ${isDark ? "bg-stage-red/5" : "bg-stage-azure/12"}
                   `}>
-                    <FiTool size={12} className={`mt-0.5 ${isDark ? "text-stage-red-glow/60" : "text-stage-gold/60"}`} />
+                    <FiTool size={12} className={`mt-0.5 ${isDark ? "text-stage-red-glow/60" : "text-stage-azure/80"}`} />
                     <span className={`font-mono text-[10px] ${isDark ? "text-stage-silver/50" : "text-stage-charcoal/50"}`}>
                       {tech}
                     </span>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>

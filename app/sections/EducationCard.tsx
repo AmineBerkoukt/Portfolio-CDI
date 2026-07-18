@@ -1,17 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
 import { FiBook, FiAward } from "react-icons/fi";
-import useRestoredScroll from "../hooks/useRestoredScroll";
 
 export default function EducationCard() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const restoredScroll = useRestoredScroll();
 
   const educationItems = [
     {
@@ -29,31 +26,27 @@ export default function EducationCard() {
   ];
 
   return (
-    <section id="education" className="scroll-margin py-16 px-4 md:px-8">
+    <section id="education" className="scroll-margin py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex justify-center">
         <SceneCard
           cue={t("education.cue") as string}
           title={t("education.title") as string}
           initialX={0}
           initialY={0}
-          width="w-full max-w-2xl"
+          width="w-full max-w-4xl mx-auto"
         >
           <div className="space-y-4">
             {educationItems.map((item, i) => (
-              <motion.div
+              <div
                 key={i}
                 className={`
                   flex items-start gap-4 p-4 rounded-lg
-                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-gold/10"}
+                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
-                initial={restoredScroll ? false : { opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
               >
                 <div className={`
                   p-2 rounded-full
-                  ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}
+                  ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}
                 `}>
                   <item.icon size={20} />
                 </div>
@@ -64,11 +57,11 @@ export default function EducationCard() {
                   <p className={`font-mono text-xs mt-1 ${isDark ? "text-stage-silver/60" : "text-stage-charcoal/60"}`}>
                     {item.school as string}
                   </p>
-                  <span className={`font-mono text-[10px] uppercase tracking-wider ${isDark ? "text-stage-red-glow/60" : "text-stage-gold/60"}`}>
+                  <span className={`font-mono text-[10px] uppercase tracking-wider ${isDark ? "text-stage-red-glow/60" : "text-stage-azure/80"}`}>
                     {item.date as string}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </SceneCard>

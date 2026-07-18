@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
@@ -18,32 +17,28 @@ export default function ExtrasCard() {
   const items = safeArray(t("extras.items"));
 
   return (
-    <section id="extras" className="scroll-margin py-16 px-4 md:px-8">
+    <section id="extras" className="scroll-margin py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex justify-center">
         <SceneCard
           cue={t("extras.cue") as string}
           title={t("extras.title") as string}
           initialX={0}
           initialY={0}
-          width="w-full max-w-xl"
+          width="w-full max-w-4xl mx-auto"
         >
           <div className="space-y-4">
             {items.map((item, i) => (
-              <motion.div
+              <div
                 key={i}
                 className={`
                   flex items-start gap-3 p-4 rounded-lg
-                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-gold/10"}
+                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.2 }}
               >
                 <div
                   className={`
                     p-2 rounded-full mt-0.5
-                    ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}
+                    ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}
                   `}
                 >
                   {i === 0 ? <FiStar size={16} /> : <FiCamera size={16} />}
@@ -55,7 +50,7 @@ export default function ExtrasCard() {
                 >
                   {item}
                 </span>
-              </motion.div>
+              </div>
             ))}
           </div>
         </SceneCard>

@@ -14,22 +14,14 @@ export default function Footer() {
     <footer
       className={`
         py-8 px-4 text-center border-t
-        ${isDark ? "border-stage-red/10 bg-stage-black" : "border-stage-gold/10 bg-stage-cream"}
+        ${isDark ? "border-stage-red/10 bg-stage-black" : "border-stage-azure/25 bg-stage-cream"}
       `}
     >
       <p
-        className={`font-mono text-[10px] uppercase tracking-widest ${
-          isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"
-        }`}
+        className={`font-mono text-[10px] uppercase tracking-widest ${isDark ? "text-stage-silver/40" : "text-stage-charcoal/40"
+          }`}
       >
         © {new Date().getFullYear()} Amine BERKOUKT — {footerRights}
-      </p>
-      <p
-        className={`font-mono text-[10px] mt-2 ${
-          isDark ? "text-stage-red-glow/30" : "text-stage-gold/30"
-        }`}
-      >
-        {footerBuilt}
       </p>
     </footer>
   );
