@@ -14,6 +14,10 @@ import { clone as cloneSkinned } from "three/examples/jsm/utils/SkeletonUtils.js
 import ErrorBoundary from "./ErrorBoundary";
 import HeroCanvasLoader from "./HeroCanvasLoader";
 
+// Kick off the GLB download immediately on module load so the avatar is
+// ready by the time the hero is visible (not deferred until scroll).
+useGLTF.preload("/avatar3d.glb");
+
 export type HeroPointer = { x: number; y: number };
 
 /** The avatar GLTF, auto-centered and normalized so it fits at any native scale. */
@@ -64,23 +68,16 @@ function AvatarModel({
     };
   }, [actions, names]);
 
-  useFrame((state, delta) => {
+  useFrame((state) => {
     const group = groupRef.current;
     if (!group) return;
 
     const t = state.clock.elapsedTime;
-    
-    // Baseline float — shifted up so the avatar sits higher in the hero panel.
+
+    // Static pose — gentle vertical float only, no mouse tracking.
     group.position.y = 0.9 + Math.sin(t * 1.2) * 0.03;
-
-    // Subtly rotate toward the cursor, blended with a slow idle sway for life.
-    const targetY = pointerRef.current.x * 0.55 + Math.sin(t * 0.4) * 0.08;
-    const targetX = -pointerRef.current.y * 0.3;
-
-    // Frame-rate independent smoothing.
-    const k = 1 - Math.pow(0.0015, delta);
-    group.rotation.y = THREE.MathUtils.lerp(group.rotation.y, targetY, k);
-    group.rotation.x = THREE.MathUtils.lerp(group.rotation.x, targetX, k);
+    group.rotation.y = 0;
+    group.rotation.x = 0;
   });
 
   return (
@@ -161,6 +158,7 @@ export default function Hero3DCanvas({
       <div className="relative h-full w-full">
         <Canvas
           shadows
+          frameloop="always"
           dpr={[1, 2]}
           gl={{ antialias: true, alpha: true }}
           camera={{ position: [0, 0.35, 6.0], fov: 42 }}
@@ -175,5 +173,3 @@ export default function Hero3DCanvas({
     </ErrorBoundary>
   );
 }
-
-useGLTF.preload("/avatar3d.glb");
