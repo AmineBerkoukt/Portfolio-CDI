@@ -15,6 +15,18 @@
   --stage-charcoal: #2a2a2a;
   --stage-smoke: #1a1a2e;
 
+  /* Story / quest-themed accents — themed per mode (see .light-mode overrides).
+     academic = blue (training/education arcs), boss = amber (internship fights),
+     side = purple (AI / personal projects), recruit = brand red. */
+  --quest-academic: #1a6fe0;
+  --quest-academic-glow: #5aa2ff;
+  --quest-boss: #f59e0b;
+  --quest-boss-glow: #fbbf24;
+  --quest-side: #a855f7;
+  --quest-side-glow: #c084fc;
+  --quest-recruit: #c41e3a;
+  --quest-recruit-glow: #ff2d55;
+
   /* Typography scale - vertical rhythm */
   --typo-scale: 1.15; /* Line height ratio */
   --base-size: 1rem; /* 16px */
@@ -94,6 +106,16 @@ h6, .h6 {
 body.light-mode {
   background-color: var(--stage-cream);
   color: var(--stage-charcoal);
+
+  /* Story accents tuned for the light surface (deeper, higher-contrast hues). */
+  --quest-academic: #1a6fe0;
+  --quest-academic-glow: #2563eb;
+  --quest-boss: #b45309;
+  --quest-boss-glow: #d97706;
+  --quest-side: #7e22ce;
+  --quest-side-glow: #9333ea;
+  --quest-recruit: #c41e3a;
+  --quest-recruit-glow: #e11d48;
 }
 
 @layer components {
@@ -158,7 +180,7 @@ body.light-mode {
   }
 
   .scroll-margin {
-    scroll-margin-top: 80px;
+    scroll-margin-top: 110px;
   }
 }
 
@@ -261,6 +283,71 @@ body.light-mode .section-title {
 /* The title lives on the divider in both themes — hide the in-card copy */
 .scene-card-title {
   display: none;
+}
+
+/* ===== CareerQuest / Story route ===== */
+
+/* Glowing, pulsing quest nodes on the world map.
+   --node-glow / --node-ring are set per-level-theme inline. */
+@keyframes storyNodePulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--node-ring, rgba(196, 30, 58, 0)),
+      0 0 16px 1px var(--node-glow, rgba(196, 30, 58, 0.45));
+  }
+  50% {
+    box-shadow: 0 0 0 9px var(--node-ring, rgba(196, 30, 58, 0)),
+      0 0 28px 6px var(--node-glow, rgba(196, 30, 58, 0.7));
+  }
+}
+
+.story-node-pulse {
+  animation: storyNodePulse 2.6s ease-in-out infinite;
+}
+
+.story-node-pulse-current {
+  animation: storyNodePulse 1.6s ease-in-out infinite;
+}
+
+/* Twinkling stars scattered across the world-map sky (dark mode). */
+@keyframes storyTwinkle {
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.9; }
+}
+.story-twinkle {
+  animation: storyTwinkle 2.8s ease-in-out infinite;
+}
+
+/* Slow drifting clouds for the world-map backdrop. */
+@keyframes storyCloudDrift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(6%); }
+}
+.story-cloud {
+  animation: storyCloudDrift 9s ease-in-out infinite;
+}
+
+/* Loot / reward chip used inside level detail cards. */
+.quest-loot {
+  @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono;
+}
+
+/* Subtle sci-fi grid backdrop for the world map. */
+.story-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(128, 128, 128, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(128, 128, 128, 0.08) 1px, transparent 1px);
+  background-size: 38px 38px;
+}
+
+/* XP / progress bar fill — animated width via transform scaleX in components. */
+.xp-track {
+  background: rgba(128, 128, 128, 0.18);
+}
+
+/* Keep the focus ring visible and on-brand for keyboard users. */
+.story-focus:focus-visible {
+  outline: 2px solid var(--stage-azure-glow);
+  outline-offset: 2px;
 }
 
 /* Reduced motion */

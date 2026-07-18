@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
@@ -75,6 +76,17 @@ export default function Header() {
                 {t(item.label) as string}
               </motion.button>
             ))}
+
+            <Link
+              href="/story"
+              className={`px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider rounded border transition-colors duration-300 ${
+                isDark
+                  ? "text-stage-red-glow border-stage-red/30 hover:bg-stage-red/10"
+                  : "text-stage-azure border-stage-azure/50 hover:bg-stage-azure/20"
+              }`}
+            >
+              {lang === "fr" ? "Histoire" : "Story"}
+            </Link>
           </nav>
 
           {/* Toggles */}
@@ -153,6 +165,15 @@ export default function Header() {
                   {t(item.label) as string}
                 </motion.button>
               ))}
+
+              <Link
+                href="/story"
+                className={`font-condensed text-2xl uppercase tracking-widest ${
+                  isDark ? "text-stage-red-glow" : "text-stage-azure"
+                }`}
+              >
+                {lang === "fr" ? "Histoire" : "Story"}
+              </Link>
             </div>
           </motion.div>
         )}
