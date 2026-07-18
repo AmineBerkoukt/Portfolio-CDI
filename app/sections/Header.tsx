@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
@@ -49,14 +50,16 @@ export default function Header() {
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           {/* Brand */}
-          <motion.div
-            className="flex items-center"
-            whileHover={{ scale: 1.05 }}
-          >
-            <span className={`font-serif text-lg md:text-xl tracking-[0.2em] ${isDark ? "text-white" : "text-stage-charcoal"}`}>
-              Amine BERKOUKT
-            </span>
-          </motion.div>
+          <Link href="/">
+            <motion.div
+              className="flex items-center"
+              whileHover={{ scale: 1.05 }}
+            >
+              <span className={`font-serif text-lg md:text-xl tracking-[0.2em] ${isDark ? "text-white" : "text-stage-charcoal"}`}>
+                Amine BERKOUKT
+              </span>
+            </motion.div>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -75,6 +78,7 @@ export default function Header() {
                 {t(item.label) as string}
               </motion.button>
             ))}
+
           </nav>
 
           {/* Toggles */}
@@ -153,6 +157,7 @@ export default function Header() {
                   {t(item.label) as string}
                 </motion.button>
               ))}
+
             </div>
           </motion.div>
         )}
