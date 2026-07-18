@@ -14,7 +14,7 @@ export default function Footer() {
     <footer
       className={`
         py-8 px-4 text-center border-t
-        ${isDark ? "border-stage-red/10 bg-stage-black" : "border-stage-gold/10 bg-stage-cream"}
+        ${isDark ? "border-stage-red/10 bg-stage-black" : "border-stage-azure/25 bg-stage-cream"}
       `}
     >
       <p
@@ -26,7 +26,7 @@ export default function Footer() {
       </p>
       <p
         className={`font-mono text-[10px] mt-2 ${
-          isDark ? "text-stage-red-glow/30" : "text-stage-gold/30"
+          isDark ? "text-stage-red-glow/30" : "text-stage-azure/50"
         }`}
       >
         {footerBuilt}

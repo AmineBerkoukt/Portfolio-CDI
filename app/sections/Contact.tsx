@@ -11,12 +11,15 @@ export default function Contact() {
   const isDark = theme === "dark";
 
   return (
-    <section id="contact" className="scroll-margin py-16 px-4 md:px-8 relative">
-      <div className="max-w-7xl mx-auto flex justify-center">
+    <section id="contact" className="scroll-margin py-10 px-4 md:px-8 relative">
+      <div className="max-w-7xl mx-auto">
+        <div className="section-head" aria-hidden="true">
+          <span className="section-title">{t("contact.title") as string}</span>
+        </div>
         <motion.div
           className={`
-            relative w-full max-w-lg
-            ${isDark ? "bg-stage-velvet/80 border border-stage-red/20" : "bg-white/80 border border-stage-gold/20"}
+            relative w-full max-w-4xl mx-auto
+            ${isDark ? "bg-stage-velvet/80 border border-stage-red/20" : "bg-white/80 border border-stage-azure/45"}
             backdrop-blur-md rounded-xl overflow-hidden
           `}
           initial={{ opacity: 0, y: 50 }}
@@ -24,17 +27,10 @@ export default function Contact() {
           viewport={{ once: true }}
         >
           <div className="p-8 md:p-10">
-            <span
-              className={`font-mono text-[10px] uppercase tracking-[0.3em] ${
-                isDark ? "text-stage-red-glow/70" : "text-stage-gold/70"
-              }`}
-            >
-              {t("contact.cue") as string}
-            </span>
 
             <h2
               className={`
-                font-serif text-2xl md:text-3xl font-bold mb-6
+                scene-card-title font-serif text-2xl md:text-3xl font-bold mb-6
                 ${isDark ? "text-white" : "text-stage-charcoal"}
               `}
             >
@@ -48,11 +44,11 @@ export default function Contact() {
                 rel="noreferrer"
                 className={`
                   flex items-center gap-3 p-4 rounded-lg border transition-colors
-                  ${isDark ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30" : "bg-stage-ivory/60 border-stage-gold/10 hover:border-stage-gold/30"}
+                  ${isDark ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30" : "bg-stage-ivory/60 border-stage-azure/25 hover:border-stage-azure/60"}
                 `}
                 whileHover={{ x: 4 }}
               >
-                <span className={`p-2 rounded-full ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}`}>
+                <span className={`p-2 rounded-full ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}`}>
                   <FiLinkedin size={18} />
                 </span>
                 <span className={`font-mono text-sm ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/80"}`}>
@@ -64,11 +60,11 @@ export default function Contact() {
                 href="mailto:amine.berkoukt@gmail.com"
                 className={`
                   flex items-center gap-3 p-4 rounded-lg border transition-colors
-                  ${isDark ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30" : "bg-stage-ivory/60 border-stage-gold/10 hover:border-stage-gold/30"}
+                  ${isDark ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30" : "bg-stage-ivory/60 border-stage-azure/25 hover:border-stage-azure/60"}
                 `}
                 whileHover={{ x: 4 }}
               >
-                <span className={`p-2 rounded-full ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}`}>
+                <span className={`p-2 rounded-full ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}`}>
                   <FiMail size={18} />
                 </span>
                 <span className={`font-mono text-sm ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/80"}`}>
@@ -80,11 +76,11 @@ export default function Contact() {
                 href="tel:+33758102094"
                 className={`
                   flex items-center gap-3 p-4 rounded-lg border transition-colors
-                  ${isDark ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30" : "bg-stage-ivory/60 border-stage-gold/10 hover:border-stage-gold/30"}
+                  ${isDark ? "bg-stage-black/40 border-stage-red/10 hover:border-stage-red/30" : "bg-stage-ivory/60 border-stage-azure/25 hover:border-stage-azure/60"}
                 `}
                 whileHover={{ x: 4 }}
               >
-                <span className={`p-2 rounded-full ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}`}>
+                <span className={`p-2 rounded-full ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}`}>
                   <FiPhone size={18} />
                 </span>
                 <span className={`font-mono text-sm ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/80"}`}>

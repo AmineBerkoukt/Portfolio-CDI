@@ -1,80 +1,156 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
-import { useState } from "react";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
+import type { HeroPointer } from "../components/Hero3DCanvas";
+import Hero3DCanvas from "../components/Hero3DCanvas";
+import HeroCanvasLoader from "../components/HeroCanvasLoader";
 import { FiDownload } from "react-icons/fi";
-
-const TruckScene = dynamic(() => import("../components/TruckScene"), {
-  ssr: false,
-  loading: () => (
-    <div className="absolute inset-0 z-0 bg-gradient-to-b from-stage-black via-stage-velvet to-stage-black" />
-  ),
-});
 
 export default function Hero() {
   const { theme } = useTheme();
   const { t } = useI18n();
   const isDark = theme === "dark";
-  const [showRecruitMessage, setShowRecruitMessage] = useState(false);
+
+  const sectionRef = useRef<HTMLElement | null>(null);
+  // Latest pointer position (normalized to [-1, 1]) shared with the 3D canvas
+  // without triggering re-renders on every mouse move.
+  const pointer = useRef<HeroPointer>({ x: 0, y: 0 });
+
+  const handlePointerMove = (e: React.PointerEvent<HTMLElement>) => {
+    const rect = sectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    pointer.current = {
+      x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
+      y: ((e.clientY - rect.top) / rect.height) * 2 - 1,
+    };
+  };
+
+  const resetPointer = () => {
+    pointer.current = { x: 0, y: 0 };
+  };
 
   const titleWords = (t("hero.title") as string).split(" ");
   const heroName = t("hero.name") as string;
   const heroCta = t("hero.cta") as string;
+  const heroTagline = t("hero.tagline");
+  const hasTagline = typeof heroTagline === "string" && heroTagline.length > 0;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* 3D Background */}
-      <TruckScene showRecruitMessage={showRecruitMessage} />
+    <section
+      ref={sectionRef}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={resetPointer}
+      className="relative flex items-start overflow-x-hidden pt-20"
+    >
+      {/* Ambient theatrical glow — sits behind the split content. */}
+      <div
+        className={`absolute inset-0 -z-10 ${
+          isDark
+            ? "bg-gradient-to-b from-stage-black via-stage-velvet to-stage-black"
+            : "bg-gradient-to-b from-stage-cream via-stage-ivory to-stage-cream"
+        }`}
+      />
+      {/* Portfolio grid pattern overlay — subtle structural texture */}
+      <div
+        className={`pointer-events-none absolute inset-0 -z-10 opacity-[0.03] ${
+          isDark ? "bg-white" : "bg-black"
+        }`}
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, currentColor 1px, transparent 1px),
+            linear-gradient(to bottom, currentColor 1px, transparent 1px)
+          `,
+          backgroundSize: '80px 80px',
+          backgroundPosition: 'center center',
+        }}
+      />
+      <motion.div
+        className="pointer-events-none absolute inset-0 -z-10"
+        animate={{ opacity: [0.6, 0.85, 0.6] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          backgroundImage: isDark
+            ? "radial-gradient(circle at 18% 25%, rgba(196, 30, 58, 0.16), transparent 32%), radial-gradient(circle at 82% 30%, rgba(168, 85, 247, 0.14), transparent 30%), radial-gradient(circle at 60% 80%, rgba(34, 211, 238, 0.10), transparent 30%)"
+            : "radial-gradient(circle at 18% 25%, rgba(255, 77, 109, 0.10), transparent 32%), radial-gradient(circle at 82% 30%, rgba(168, 85, 247, 0.10), transparent 30%), radial-gradient(circle at 60% 80%, rgba(34, 211, 238, 0.08), transparent 30%)",
+        }}
+      />
 
-      {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        {/* Name */}
-        <motion.h1
-          className={`font-serif text-5xl md:text-7xl lg:text-8xl font-black mb-4 ${isDark ? "text-white text-glow" : "text-stage-charcoal"}`}
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 2, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {heroName}
-        </motion.h1>
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-start gap-8 px-6 py-6 md:py-8 lg:grid-cols-2 lg:gap-10 lg:py-8">
+        {/* LEFT — text / introduction */}
+        <div className="text-left">
+          <motion.h1
+            className={`h1 ${
+              isDark ? "text-white text-glow" : "text-stage-charcoal"
+            }`}
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {heroName}
+          </motion.h1>
 
-        {/* Title with marquee drop animation */}
-        <div className="flex flex-wrap justify-center gap-x-3 gap-y-1 mb-6">
-          {titleWords.map((word, i) => (
-            <motion.span
-              key={i}
-              className={`font-condensed text-xl md:text-2xl lg:text-3xl uppercase tracking-wider ${isDark ? "text-stage-silver" : "text-stage-charcoal/80"}`}
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 2.3 + i * 0.1, ease: "backOut" }}
+          <div className="mt-4 flex flex-wrap gap-x-3 gap-y-1">
+            {titleWords.map((word, i) => (
+              <motion.span
+                key={i}
+                className={`text-xl uppercase tracking-wider md:text-2xl lg:text-3xl ${
+                  isDark ? "text-stage-silver" : "text-stage-charcoal/80"
+                }`}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 + i * 0.08, ease: "backOut" }}
+              >
+                {word}
+              </motion.span>
+            ))}
+          </div>
+
+          {hasTagline && (
+            <motion.p
+              className={`mt-4 break-words max-w-[400px] font-mono text-base leading-tight ${
+                isDark ? "text-stage-silver/80" : "text-stage-charcoal/70"
+              }`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.9 }}
             >
-              {word}
-            </motion.span>
-          ))}
+              {heroTagline}
+            </motion.p>
+          )}
+
+          <motion.a
+            href="/assets/resume.pdf"
+            download="Amine-Berkoukt-Resume.pdf"
+            className={`mt-6 inline-flex items-center gap-3 cue-button rounded-full px-6 py-3 ${
+              isDark
+                ? "bg-stage-red/20 text-white border border-stage-red/40 hover:bg-stage-red/30"
+                : "cue-button-light bg-stage-azure/35 text-stage-charcoal border border-stage-azure/70 hover:bg-stage-azure/30"
+            }`}
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 1.1, type: "spring" }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <FiDownload size={16} />
+            <span className="font-condensed uppercase tracking-widest text-sm">{heroCta}</span>
+          </motion.a>
         </div>
 
-        {/* CTA */}
-        <motion.a
-          href="/assets/resume.pdf"
-          download="Amine-Berkoukt-Resume.pdf"
-          className={`
-            inline-flex items-center gap-3 cue-button rounded-full
-            ${isDark ? "bg-stage-red/20 text-white border border-stage-red/40 hover:bg-stage-red/30" : "bg-stage-gold/20 text-stage-charcoal border border-stage-gold/40 hover:bg-stage-gold/30"}
-          `}
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 3.5, type: "spring" }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onHoverStart={() => setShowRecruitMessage(true)}
-          onHoverEnd={() => setShowRecruitMessage(false)}
-        >
-          <FiDownload size={16} />
-          <span>{heroCta}</span>
-        </motion.a>
+        {/* RIGHT — interactive 3D avatar canvas */}
+        <div className="relative h-[55vh] w-full min-h-[420px] lg:h-[80vh]">
+          <div
+            className={`pointer-events-none absolute inset-0 rounded-3xl ${
+              isDark
+                ? "bg-[radial-gradient(circle_at_center,rgba(196,30,58,0.08),transparent_60%)]"
+                : "bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.08),transparent_60%)]"
+            }`}
+          />
+          <Hero3DCanvas pointerRef={pointer} />
+        </div>
       </div>
     </section>
   );

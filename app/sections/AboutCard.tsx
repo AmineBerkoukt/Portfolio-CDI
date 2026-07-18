@@ -20,14 +20,14 @@ export default function AboutCard() {
   ];
 
   return (
-    <section id="about" className="scroll-margin py-16 px-4 md:px-8">
+    <section id="about" className="scroll-margin py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex justify-center">
         <SceneCard
           cue={t("about.cue") as string}
           title={t("about.title") as string}
           initialX={0}
           initialY={0}
-          width="w-full max-w-3xl"
+          width="w-full max-w-4xl mx-auto"
         >
           <p className={`font-mono text-sm leading-relaxed mb-6 ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/80"}`}>
             {aboutContent}
@@ -38,10 +38,10 @@ export default function AboutCard() {
                 key={i}
                 className={`
                   flex items-center gap-3 p-3 rounded-lg
-                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-gold/10"}
+                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
               >
-                <item.icon className={`text-lg ${isDark ? "text-stage-red-glow" : "text-stage-gold"}`} />
+                <item.icon className={`text-lg ${isDark ? "text-stage-red-glow" : "text-stage-azure"}`} />
                 <span className={`font-mono text-xs ${isDark ? "text-stage-silver/70" : "text-stage-charcoal/70"}`}>
                   {item.text as string}
                 </span>

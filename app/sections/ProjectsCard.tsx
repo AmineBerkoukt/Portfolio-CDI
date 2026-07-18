@@ -20,23 +20,33 @@ export default function ProjectsCard() {
   const projectItems = [
     { key: "devops", icon: FiCode },
     { key: "microservices", icon: FiCode },
+    { key: "rag", icon: FiCode },
+    { key: "licensePlate", icon: FiCode },
+    { key: "cvAdapter", icon: FiCode },
+    { key: "kidsActivities", icon: FiCode },
+    { key: "studentColocation", icon: FiCode },
+    { key: "ecommerce", icon: FiCode },
+    { key: "courselens", icon: FiCode },
+    { key: "examAssistant", icon: FiCode },
+    { key: "voiceCoding", icon: FiCode },
   ];
 
   return (
-    <section id="projects" className="scroll-margin py-16 px-4 md:px-8">
+    <section id="projects" className="scroll-margin py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex justify-center">
         <SceneCard
           cue={t("projects.cue") as string}
           title={t("projects.title") as string}
           initialX={0}
           initialY={0}
-          width="w-full max-w-2xl"
+          width="w-full max-w-4xl mx-auto"
         >
           <div className="space-y-4">
             {projectItems.map((proj, i) => {
               const title = t(`projects.${proj.key}.title`) as string;
               const date = t(`projects.${proj.key}.date`) as string;
-              const desc = t(`projects.${proj.key}.desc`) as string;
+              const descRaw = t(`projects.${proj.key}.desc`);
+              const desc = Array.isArray(descRaw) ? descRaw : [];
               const tech = t(`projects.${proj.key}.tech`) as string;
 
               return (
@@ -44,17 +54,17 @@ export default function ProjectsCard() {
                   key={proj.key}
                   className={`
                     p-4 rounded-lg
-                    ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-gold/10"}
+                    ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                   `}
                   initial={restoredScroll ? false : { opacity: 0, scale: 0.95 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.2 }}
+                  transition={{ delay: Math.min(i * 0.08, 0.6) }}
                 >
                   <div className="flex items-start gap-3 mb-2">
                     <div className={`
                       p-2 rounded-full
-                      ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}
+                      ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}
                     `}>
                       <proj.icon size={18} />
                     </div>
@@ -70,14 +80,16 @@ export default function ProjectsCard() {
                       )}
                     </div>
                   </div>
-                  <p className={`font-mono text-xs leading-relaxed ml-11 mb-2 ${isDark ? "text-stage-silver/70" : "text-stage-charcoal/70"}`}>
-                    {desc}
-                  </p>
+                  <ul className={`font-mono text-xs leading-relaxed ml-11 mb-2 space-y-1 list-disc pl-1 ${isDark ? "text-stage-silver/70 marker:text-stage-red-glow/60" : "text-stage-charcoal/70 marker:text-stage-azure/70"}`}>
+                    {desc.map((point, di) => (
+                      <li key={di}>{point}</li>
+                    ))}
+                  </ul>
                   <div className={`
                     ml-11 flex items-start gap-2 p-2 rounded
-                    ${isDark ? "bg-stage-red/5" : "bg-stage-gold/5"}
+                    ${isDark ? "bg-stage-red/5" : "bg-stage-azure/12"}
                   `}>
-                    <FiTool size={12} className={`mt-0.5 ${isDark ? "text-stage-red-glow/60" : "text-stage-gold/60"}`} />
+                    <FiTool size={12} className={`mt-0.5 ${isDark ? "text-stage-red-glow/60" : "text-stage-azure/80"}`} />
                     <span className={`font-mono text-[10px] ${isDark ? "text-stage-silver/50" : "text-stage-charcoal/50"}`}>
                       {tech}
                     </span>

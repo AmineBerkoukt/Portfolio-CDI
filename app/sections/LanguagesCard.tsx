@@ -20,14 +20,14 @@ export default function LanguagesCard() {
   ];
 
   return (
-    <section id="languages" className="scroll-margin py-16 px-4 md:px-8">
+    <section id="languages" className="scroll-margin py-10 px-4 md:px-8">
       <div className="max-w-7xl mx-auto flex justify-center">
         <SceneCard
           cue={t("languages.cue") as string}
           title={t("languages.title") as string}
           initialX={0}
           initialY={0}
-          width="w-full max-w-lg"
+          width="w-full max-w-4xl mx-auto"
         >
           <div className="space-y-4">
             {languages.map((lang, i) => (
@@ -35,7 +35,7 @@ export default function LanguagesCard() {
                 key={lang.key}
                 className={`
                   p-4 rounded-lg
-                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-gold/10"}
+                  ${isDark ? "bg-stage-black/40 border border-stage-red/10" : "bg-stage-ivory/60 border border-stage-azure/25"}
                 `}
                 initial={restoredScroll ? false : { opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -47,7 +47,7 @@ export default function LanguagesCard() {
                     <div
                       className={`
                         p-2 rounded-full
-                        ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-gold/10 text-stage-gold"}
+                        ${isDark ? "bg-stage-red/10 text-stage-red-glow" : "bg-stage-azure/20 text-stage-azure"}
                       `}
                     >
                       <FiMessageCircle size={16} />
@@ -70,7 +70,7 @@ export default function LanguagesCard() {
                   <motion.div
                     className={`
                       h-full rounded-full
-                      ${isDark ? "bg-gradient-to-r from-stage-red to-stage-red-glow" : "bg-gradient-to-r from-stage-gold to-yellow-400"}
+                      ${isDark ? "bg-gradient-to-r from-stage-red to-stage-red-glow" : "bg-gradient-to-r from-stage-azure to-sky-300"}
                     `}
                     initial={restoredScroll ? false : { width: 0 }}
                     whileInView={{ width: `${lang.level}%` }}

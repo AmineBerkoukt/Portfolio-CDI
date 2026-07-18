@@ -97,13 +97,116 @@ const translations = {
       devops: {
         title: "DevOps Project — Full Stack Java/Angular Developer",
         date: "June 2023 – August 2023",
-        desc: "Application with TDD approach; CI/CD pipeline on Azure VM.",
+        desc: [
+          "Application built with a TDD approach; CI/CD pipeline deployed on an Azure VM.",
+        ],
         tech: "Java 17, Spring Boot, Spring Security, Kafka, JUnit, Mockito, TypeScript, Angular, CI/CD, Docker, Azure",
       },
       microservices: {
         title: "Microservices Project — Full Stack Java/Angular Developer",
-        desc: "Microservices-based application for training evaluation; synchronous communication via HTTP requests.",
+        desc: [
+          "Microservices-based application for training evaluation; synchronous communication via HTTP requests.",
+        ],
         tech: "Java 17, Spring Boot, TypeScript, Angular, JUnit, Jira, GitHub, CI/CD, Docker, Azure",
+      },
+      rag: {
+        title: "Agentic RAG & Multimodal RAG (MMRAG)",
+        desc: [
+          "Developed a multimodal AI assistant capable of leveraging PDF documents, images, audio, and video files as knowledge sources.",
+          "Designed an end-to-end RAG pipeline integrating extraction, chunking, vector indexing, and semantic search to improve answer relevance.",
+          "Implemented an Agentic RAG workflow enabling the model to dynamically select relevant information before generating responses.",
+          "Optimized retrieval performance using vector embeddings and an advanced contextual retrieval strategy.",
+          "Improved answer accuracy by reducing hallucinations through systematic enrichment of the context provided to the LLM.",
+        ],
+        tech: "Python, LangChain, Llama 3.3 70B (Groq Cloud), ChromaDB, SentenceTransformers, FAISS, Hugging Face, Streamlit",
+      },
+      licensePlate: {
+        title: "License Plate Recognition",
+        desc: [
+          "Developed an automated solution for real-time license plate detection and recognition.",
+          "Trained and optimized a detection model capable of recognizing European and North African plates.",
+          "Designed a complete image-processing pipeline improving plate quality before OCR recognition.",
+          "Optimized reading accuracy through image preprocessing and recognition error correction.",
+          "Automated vehicle information extraction to reduce manual intervention.",
+        ],
+        tech: "Python, YOLOv8, OpenCV, EasyOCR, NumPy",
+      },
+      cvAdapter: {
+        title: "CV Adapter (ATS Optimization)",
+        desc: [
+          "Developed an AI application capable of automatically tailoring a résumé to a job posting.",
+          "Generated ATS-optimized résumés by automatically integrating strategic skills and keywords.",
+          "Improved application compatibility with ATS systems while preserving content coherence.",
+          "Designed an analysis engine comparing a job posting's requirements with the candidate's profile.",
+          "Automated résumé restructuring to increase relevance for each application.",
+        ],
+        tech: "Python, FastAPI, Llama 3.3 70B (Groq Cloud), LangChain, PDF Processing",
+      },
+      kidsActivities: {
+        title: "Children's Activities Management Platform (DevOps Approach)",
+        desc: [
+          "Developed a web platform enabling centralized management of activities, registrations, and children's tracking.",
+          "Designed an architecture promoting maintainability, collaboration, and continuous deployments.",
+          "Automated application deployment to reduce manual intervention and accelerate releases.",
+          "Implemented a DevOps approach ensuring delivery quality and reliability.",
+          "Deployed the application in a secure cloud environment with full continuous integration.",
+        ],
+        tech: "Vue.js, Laravel, Docker, Git, GitHub, GitHub Actions, Azure Virtual Machine",
+      },
+      studentColocation: {
+        title: "Student Co-living Platform (DevOps Approach)",
+        desc: [
+          "Developed a platform connecting students looking for shared accommodation.",
+          "Designed a full-stack architecture promoting scalability and separation of concerns.",
+          "Automated build, test, and deployment processes through a CI/CD pipeline.",
+          "Containerized all services to ensure environment reproducibility.",
+          "Deployed the application on the cloud with continuous delivery and simplified maintenance.",
+        ],
+        tech: "MongoDB, Express.js, React.js, Node.js, Docker, Git, GitHub, GitHub Actions, Azure",
+      },
+      ecommerce: {
+        title: "E-commerce Platform (DevOps Architecture)",
+        desc: [
+          "Developed a complete e-commerce platform integrating user, product, and order management.",
+          "Secured the application with robust authentication and authorization management.",
+          "Implemented a comprehensive unit and integration testing strategy ensuring software quality.",
+          "Automated the development cycle, from testing to continuous deployment.",
+          "Designed an architecture promoting maintainability, reliability, and scalability.",
+        ],
+        tech: "Spring Boot, Spring Security, Angular, JUnit 5, Mockito, WireMock, Testcontainers, Jasmine, Karma, Docker, GitHub Actions, Azure",
+      },
+      courselens: {
+        title: "CourseLens (Microservices Architecture)",
+        desc: [
+          "Developed a platform enabling students to evaluate their courses and improve pedagogical tracking.",
+          "Designed a microservices architecture facilitating modularity and independent service evolution.",
+          "Deployed services in an orchestrated environment ensuring better availability.",
+          "Automated testing and deployments through a complete DevOps pipeline.",
+          "Implemented a software quality strategy based on unit testing and continuous integration.",
+        ],
+        tech: "Spring Boot, ASP.NET Core, Angular, Docker, Kubernetes, GitHub Actions, JUnit 5, Mockito, xUnit, Jasmine, Karma",
+      },
+      examAssistant: {
+        title: "AI Exam Preparation Assistant",
+        desc: [
+          "Developed an AI platform that automatically transforms course materials into interactive learning resources.",
+          "Generated intelligent summaries from PDF documents to facilitate revision.",
+          "Automated the creation of Q&A and mind maps to enhance learning.",
+          "Designed an interface enabling natural-language interaction with documents.",
+          "Leveraged language model capabilities to provide personalized student assistance.",
+        ],
+        tech: "Angular, Laravel, Groq Cloud, Llama 3.3 70B, LangChain",
+      },
+      voiceCoding: {
+        title: "Voice Coding Assistant",
+        desc: [
+          "Developed an AI assistant capable of generating code from natural-language voice instructions.",
+          "Designed an automation chain orchestrating transcription, comprehension, and code generation.",
+          "Automated code snippet development to accelerate repetitive tasks.",
+          "Integrated advanced language models to produce coherent and contextualized code.",
+          "Optimized user experience through fully voice-based interaction with the assistant.",
+        ],
+        tech: "Spring Boot, Spring AI, n8n, Groq Cloud, Llama 3.3 70B, Whisper",
       },
     },
     skills: {
@@ -142,8 +245,7 @@ const translations = {
       ],
     },
     contact: {
-      title: "Backstage Pass",
-      cue: "GET IN TOUCH",
+      title: "Contact me",
       name: "Name",
       email: "Email",
       message: "Message",
@@ -175,6 +277,7 @@ const translations = {
     hero: {
       name: "Amine BERKOUKT",
       title: "Ingénieur en Développement Full Stack Java/Angular et DevOps",
+      tagline: "Ingénieur doublement diplomé",
       cta: "Télécharger le CV",
       cue: "ACTE I — PREMIÈRE",
     },
@@ -245,13 +348,116 @@ const translations = {
       devops: {
         title: "Projet DevOps — Développeur Full Stack Java/Angular",
         date: "Juin 2023 – Août 2023",
-        desc: "Application avec approche TDD; pipeline CI/CD sur VM Azure.",
+        desc: [
+          "Application construite avec une approche TDD ; pipeline CI/CD déployé sur une VM Azure.",
+        ],
         tech: "Java 17, Spring Boot, Spring Security, Kafka, JUnit, Mockito, TypeScript, Angular, CI/CD, Docker, Azure",
       },
       microservices: {
         title: "Projet Microservices — Développeur Full Stack Java/Angular",
-        desc: "Application basée sur une architecture microservices pour l'évaluation des formations; communication synchrone via requêtes HTTP.",
+        desc: [
+          "Application basée sur une architecture microservices pour l'évaluation des formations ; communication synchrone via requêtes HTTP.",
+        ],
         tech: "Java 17, Spring Boot, TypeScript, Angular, JUnit, Jira, GitHub, CI/CD, Docker, Azure",
+      },
+      rag: {
+        title: "Agentic RAG & Multimodal RAG (MMRAG)",
+        desc: [
+          "Développé un assistant IA multimodal capable d'exploiter des documents PDF, images, fichiers audio et vidéos comme sources de connaissances.",
+          "Conçu un pipeline RAG complet intégrant l'extraction, le découpage, l'indexation vectorielle et la recherche sémantique pour améliorer la pertinence des réponses.",
+          "Mis en œuvre un workflow Agentic RAG permettant au modèle de sélectionner dynamiquement les informations pertinentes avant la génération des réponses.",
+          "Optimisé les performances des recherches grâce à des embeddings vectoriels et à une stratégie de récupération contextuelle avancée.",
+          "Amélioré la précision des réponses en réduisant les hallucinations via un enrichissement systématique du contexte fourni au LLM.",
+        ],
+        tech: "Python, LangChain, Llama 3.3 70B (Groq Cloud), ChromaDB, SentenceTransformers, FAISS, Hugging Face, Streamlit",
+      },
+      licensePlate: {
+        title: "Reconnaissance de plaques d'immatriculation",
+        desc: [
+          "Développé une solution automatique de détection et de lecture de plaques d'immatriculation en temps réel.",
+          "Entraîné et optimisé un modèle de détection capable de reconnaître des plaques européennes et nord-africaines.",
+          "Conçu une chaîne complète de traitement d'image améliorant la qualité des plaques avant reconnaissance OCR.",
+          "Optimisé la précision de lecture grâce au prétraitement des images et à la correction des erreurs de reconnaissance.",
+          "Automatisé l'extraction des informations des véhicules afin de réduire les interventions manuelles.",
+        ],
+        tech: "Python, YOLOv8, OpenCV, EasyOCR, NumPy",
+      },
+      cvAdapter: {
+        title: "CV Adapter (Optimisation ATS)",
+        desc: [
+          "Développé une application IA capable d'adapter automatiquement un CV à une offre d'emploi.",
+          "Généré des CV optimisés ATS en intégrant automatiquement les compétences et mots-clés stratégiques.",
+          "Amélioré la compatibilité des candidatures avec les systèmes ATS tout en conservant la cohérence du contenu.",
+          "Conçu un moteur d'analyse comparant les exigences d'une offre avec le profil du candidat.",
+          "Automatisé la restructuration du CV afin d'augmenter sa pertinence pour chaque candidature.",
+        ],
+        tech: "Python, FastAPI, Llama 3.3 70B (Groq Cloud), LangChain, PDF Processing",
+      },
+      kidsActivities: {
+        title: "Plateforme de gestion d'activités pour enfants (Approche DevOps)",
+        desc: [
+          "Développé une plateforme web permettant la gestion centralisée des activités, inscriptions et suivi des enfants.",
+          "Conçu une architecture favorisant la maintenabilité, la collaboration et les déploiements continus.",
+          "Automatisé le déploiement de l'application afin de réduire les interventions manuelles et accélérer les mises en production.",
+          "Mis en œuvre une démarche DevOps garantissant la qualité et la fiabilité des livraisons.",
+          "Déployé l'application dans un environnement cloud sécurisé avec une intégration continue complète.",
+        ],
+        tech: "Vue.js, Laravel, Docker, Git, GitHub, GitHub Actions, Azure Virtual Machine",
+      },
+      studentColocation: {
+        title: "Plateforme de colocation étudiante (Approche DevOps)",
+        desc: [
+          "Développé une plateforme facilitant la mise en relation des étudiants recherchant une colocation.",
+          "Conçu une architecture full-stack favorisant la scalabilité et la séparation des responsabilités.",
+          "Automatisé les processus de build, tests et déploiement via une pipeline CI/CD.",
+          "Conteneurisé l'ensemble des services afin de garantir la reproductibilité des environnements.",
+          "Déployé l'application sur le cloud en assurant une livraison continue et une maintenance simplifiée.",
+        ],
+        tech: "MongoDB, Express.js, React.js, Node.js, Docker, Git, GitHub, GitHub Actions, Azure",
+      },
+      ecommerce: {
+        title: "Plateforme E-commerce (Architecture DevOps)",
+        desc: [
+          "Développé une plateforme e-commerce complète intégrant la gestion des utilisateurs, produits et commandes.",
+          "Sécurisé l'application grâce à une authentification robuste et une gestion des autorisations.",
+          "Mis en place une stratégie complète de tests unitaires et d'intégration garantissant la qualité logicielle.",
+          "Automatisé le cycle de développement, des tests jusqu'au déploiement continu.",
+          "Conçu une architecture favorisant la maintenabilité, la fiabilité et l'évolutivité de l'application.",
+        ],
+        tech: "Spring Boot, Spring Security, Angular, JUnit 5, Mockito, WireMock, Testcontainers, Jasmine, Karma, Docker, GitHub Actions, Azure",
+      },
+      courselens: {
+        title: "CourseLens (Architecture Microservices)",
+        desc: [
+          "Développé une plateforme permettant aux étudiants d'évaluer leurs formations et d'améliorer le suivi pédagogique.",
+          "Conçu une architecture microservices facilitant la modularité et l'évolution indépendante des services.",
+          "Déployé les services dans un environnement orchestré garantissant une meilleure disponibilité.",
+          "Automatisé les tests et les déploiements via une pipeline DevOps complète.",
+          "Mis en œuvre une stratégie de qualité logicielle reposant sur des tests unitaires et une intégration continue.",
+        ],
+        tech: "Spring Boot, ASP.NET Core, Angular, Docker, Kubernetes, GitHub Actions, JUnit 5, Mockito, xUnit, Jasmine, Karma",
+      },
+      examAssistant: {
+        title: "Assistant IA de préparation aux examens",
+        desc: [
+          "Développé une plateforme IA permettant de transformer automatiquement des supports de cours en ressources pédagogiques interactives.",
+          "Généré des résumés intelligents à partir de documents PDF afin de faciliter la révision.",
+          "Automatisé la création de questions-réponses et de cartes mentales pour améliorer l'apprentissage.",
+          "Conçu une interface permettant d'interagir avec les documents en langage naturel.",
+          "Exploité les capacités des modèles de langage pour proposer une assistance personnalisée aux étudiants.",
+        ],
+        tech: "Angular, Laravel, Groq Cloud, Llama 3.3 70B, LangChain",
+      },
+      voiceCoding: {
+        title: "Voice Coding Assistant",
+        desc: [
+          "Développé un assistant IA capable de générer du code à partir d'instructions vocales en langage naturel.",
+          "Conçu une chaîne d'automatisation orchestrant la transcription, la compréhension et la génération de code.",
+          "Automatisé le développement de fragments de code afin d'accélérer les tâches répétitives.",
+          "Intégré des modèles de langage avancés pour produire du code cohérent et contextualisé.",
+          "Optimisé l'expérience utilisateur grâce à une interaction entièrement vocale avec l'assistant.",
+        ],
+        tech: "Spring Boot, Spring AI, n8n, Groq Cloud, Llama 3.3 70B, Whisper",
       },
     },
     skills: {
@@ -290,8 +496,7 @@ const translations = {
       ],
     },
     contact: {
-      title: "Passe Coulisse",
-      cue: "FINALE — CONTACT",
+      title: "Contactez-moi",
       name: "Nom",
       email: "Email",
       message: "Message",
@@ -318,10 +523,8 @@ const I18nContext = createContext<I18nContextType>({
 
 export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>("fr");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const saved = localStorage.getItem("lang") as Lang;
     if (saved) setLang(saved);
   }, []);
@@ -341,10 +544,6 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     }
     return value;
   };
-
-  if (!mounted) {
-    return <>{children}</>;
-  }
 
   return (
     <I18nContext.Provider value={{ lang, toggleLang, t }}>

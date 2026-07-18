@@ -10,22 +10,23 @@ import LanguagesCard from "./sections/LanguagesCard";
 import ExtrasCard from "./sections/ExtrasCard";
 import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
+import Reveal from "./components/Reveal";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
       <Header />
       <Hero />
-      <div className="relative z-10 space-y-8 pb-16">
-        <AboutCard />
-        <EducationCard />
-        <ExperienceCard />
-        <ProjectsCard />
-        <SkillsCard />
-        <CertificationsCard />
-        <LanguagesCard />
-        <ExtrasCard />
-        <Contact />
+      <div className="relative z-10 space-y-6 pb-16">
+        <Reveal><AboutCard /></Reveal>
+        <Reveal delay={0.05}><EducationCard /></Reveal>
+        <Reveal delay={0.1}><ExperienceCard /></Reveal>
+        <Reveal delay={0.15}><ProjectsCard /></Reveal>
+        <Reveal delay={0.2}><SkillsCard /></Reveal>
+        <Reveal delay={0.25}><CertificationsCard /></Reveal>
+        <Reveal delay={0.3}><LanguagesCard /></Reveal>
+        <Reveal delay={0.35}><ExtrasCard /></Reveal>
+        <Reveal delay={0.4}><Contact /></Reveal>
       </div>
       <Footer />
     </main>
