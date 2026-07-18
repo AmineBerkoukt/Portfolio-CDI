@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
-import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
+import { FiSun, FiMoon, FiMenu, FiX, FiGlobe } from "react-icons/fi";
 
 const navItems = [
   { key: "about", label: "nav.about" },
@@ -83,13 +83,14 @@ export default function Header() {
             <motion.button
               onClick={toggleLang}
               className={`
-                px-3 py-1.5 font-mono text-xs uppercase tracking-wider rounded border
+                flex items-center gap-1.5 px-2 md:px-3 py-1.5 font-mono text-xs uppercase tracking-wider rounded border
                 ${isDark ? "border-stage-red/30 text-stage-silver hover:border-stage-red" : "border-stage-azure/60 text-stage-charcoal hover:border-stage-azure"}
               `}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {lang === "fr" ? "FR" : "EN"}
+              <FiGlobe size={14} className="opacity-80" />
+              <span>{lang === "fr" ? "FR" : "EN"}</span>
             </motion.button>
 
             {/* Theme Toggle */}
