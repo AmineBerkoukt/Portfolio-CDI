@@ -9,6 +9,7 @@ import {
 } from "../data";
 import { accent, pick, scrollToId } from "../util";
 import { FiDownload } from "react-icons/fi";
+import Image from "next/image";
 
 interface NavItem {
   id: string;
@@ -117,6 +118,19 @@ export default function HUD() {
   const isDark = theme === "dark";
   const { lang } = useI18n();
   const [active, setActive] = useState("world");
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!scrollContainerRef.current) return;
+    const container = scrollContainerRef.current;
+    const activeBtn = container.querySelector(`button[data-id="${active}"]`) as HTMLElement;
+    if (activeBtn) {
+      const containerRect = container.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      const offset = btnRect.left - containerRect.left + container.scrollLeft - (container.clientWidth / 2) + (btnRect.width / 2);
+      container.scrollTo({ left: offset, behavior: "smooth" });
+    }
+  }, [active]);
 
   // Track which section is in view to highlight the matching nav item.
   useEffect(() => {
@@ -161,9 +175,9 @@ export default function HUD() {
 
       {/* Mobile sticky strip */}
       <div
-        className={`lg:hidden sticky top-14 z-30 -mx-4 px-3 py-2 border-b backdrop-blur-md mb-6 ${panelBg}`}
+        className={`lg:hidden sticky top-14 z-30 -mx-4 border-b backdrop-blur-md mb-6 ${panelBg}`}
       >
-        <div className="flex items-center gap-3 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none]">
+        <div ref={scrollContainerRef} className="flex items-center gap-3 px-4 py-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none]">
           <span className={`shrink-0 font-mono text-[10px] uppercase tracking-widest hidden xs:inline ${isDark ? "text-stage-silver/50" : "text-stage-charcoal/50"}`}>
             {pick(lang, UI.hudQuests)}
           </span>
@@ -173,6 +187,7 @@ export default function HUD() {
             return (
               <button
                 key={n.id}
+                data-id={n.id}
                 onClick={() => scrollToId(n.id)}
                 className="story-focus shrink-0 flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11px] font-mono uppercase tracking-wide transition-colors"
                 style={{
@@ -200,7 +215,7 @@ function Identity() {
   return (
     <div className="flex items-center gap-3">
       <div
-        className="relative h-12 w-12 rounded-xl flex items-center justify-center font-condensed text-xl shrink-0"
+        className="relative z-10 h-12 w-12 rounded-xl flex items-center justify-center font-condensed text-xl shrink-0 overflow-hidden"
         style={{
           background: "rgba(128,128,128,0.1)",
           border: "1px solid var(--quest-side)",
@@ -208,7 +223,7 @@ function Identity() {
           boxShadow: "0 0 18px rgba(168,85,247,0.25)",
         }}
       >
-        AB
+        <Image src="/avatar.jpeg" alt="Amine BERKOUKT Avatar" fill className="object-cover" />
       </div>
       <div className="min-w-0">
         <p className={`font-serif text-sm leading-tight truncate ${isDark ? "text-white" : "text-stage-charcoal"}`}>

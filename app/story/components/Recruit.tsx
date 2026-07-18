@@ -8,6 +8,7 @@ import { RECRUIT, UI, CHARACTER } from "../data";
 import { pick } from "../util";
 import SectionHead from "./SectionHead";
 import { FiMail, FiPhone, FiLinkedin, FiSend, FiGlobe, FiMapPin } from "react-icons/fi";
+import Image from "next/image";
 
 export default function Recruit() {
   const { theme } = useTheme();
@@ -56,18 +57,18 @@ export default function Recruit() {
           className={`rounded-2xl border p-6 backdrop-blur-md ${isDark ? "bg-stage-velvet/70 border-stage-red/15" : "bg-white/70 border-stage-azure/40"
             }`}
         >
-          <div className="flex items-start gap-3 mb-5">
+          <div className="flex items-center gap-4 md:gap-5 mb-5">
             <span
-              className="flex h-12 w-12 items-center justify-center rounded-xl font-condensed text-lg shrink-0"
-              style={{ border: `1px solid ${a}`, color: aGlow, background: `${a}14` }}
+              className="relative z-10 flex h-12 w-12 items-center justify-center rounded-xl font-condensed text-lg shrink-0 overflow-hidden"
+              style={{ border: `1px solid ${a}`, color: aGlow, background: `color-mix(in srgb, ${a} 8%, transparent)` }}
             >
-              AB
+              <Image src="/avatar.jpeg" alt="Amine BERKOUKT Avatar" fill className="object-cover" />
             </span>
-            <div className="min-w-0">
-              <p className={`font-serif text-lg ${isDark ? "text-white" : "text-stage-charcoal"}`}>
+            <div className="min-w-0 flex flex-col justify-center">
+              <p className={`font-serif text-lg leading-none mb-1.5 ${isDark ? "text-white" : "text-stage-charcoal"}`}>
                 {CHARACTER.name}
               </p>
-              <p className="font-mono text-[11px] uppercase tracking-wide" style={{ color: aGlow }}>
+              <p className="font-mono text-[9.5px] sm:text-[11px] uppercase tracking-wide leading-tight" style={{ color: aGlow }}>
                 {pick(lang, CHARACTER.playerClass)}
               </p>
             </div>
@@ -94,7 +95,7 @@ export default function Recruit() {
                     : "bg-stage-ivory/60 border-stage-azure/25 hover:border-stage-azure/60"
                     }`}
                 >
-                  <span className="p-2 rounded-full" style={{ background: `${a}1a`, color: aGlow }}>
+                  <span className="p-2 rounded-full" style={{ background: `color-mix(in srgb, ${a} 10%, transparent)`, color: aGlow }}>
                     <Icon size={16} />
                   </span>
                   <span className={`font-mono text-[12px] truncate ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/80"}`}>
@@ -114,7 +115,7 @@ export default function Recruit() {
               <span
                 key={i}
                 className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono border"
-                style={{ borderColor: `${a}40`, background: `${a}10`, color: isDark ? "var(--stage-silver)" : "var(--stage-charcoal)" }}
+                style={{ borderColor: `color-mix(in srgb, ${a} 25%, transparent)`, background: `color-mix(in srgb, ${a} 6%, transparent)`, color: isDark ? "var(--stage-silver)" : "var(--stage-charcoal)" }}
               >
                 <FiGlobe size={12} style={{ color: aGlow }} />
                 {l.name} · {pick(lang, l.level)}

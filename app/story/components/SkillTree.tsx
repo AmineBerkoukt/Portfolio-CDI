@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
@@ -62,6 +62,20 @@ export default function SkillTree() {
   const [activeDomains, setActiveDomains] = useState<Set<number>>(new Set());
   const [hoveredDomain, setHoveredDomain] = useState<number | null>(null);
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const center = () => {
+      if (scrollContainerRef.current) {
+        const el = scrollContainerRef.current;
+        el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
+      }
+    };
+    center();
+    const id = setTimeout(center, 150);
+    return () => clearTimeout(id);
+  }, []);
+
   const toggleDomain = (index: number, e?: React.MouseEvent) => {
     setActiveDomains((prev) => {
       const next = new Set(prev);
@@ -103,8 +117,8 @@ export default function SkillTree() {
         {pick(lang, UI.skillTreeSub)}
       </p>
 
-      <div className="max-w-5xl mx-auto overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none]">
-        <div className="relative mx-auto aspect-square w-full max-w-[700px] min-w-[560px] overflow-visible">
+      <div ref={scrollContainerRef} className="max-w-5xl mx-auto overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none]">
+        <div className="relative mx-auto aspect-square w-full max-w-[700px] min-w-[600px] overflow-visible">
           {/* connector + ring layer */}
           <svg
             viewBox="0 0 100 100"

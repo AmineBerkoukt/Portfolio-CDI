@@ -52,7 +52,7 @@ export default function SideQuests() {
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
                 style={{ background: `${a.base}1f`, color: a.glow }}
               >
-                <FiBookOpen size={17} />
+                <q.Icon size={17} />
               </span>
               <h3
                 className="font-condensed text-base uppercase leading-tight pt-1"

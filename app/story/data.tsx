@@ -15,6 +15,7 @@ import {
 import {
   FiZap, FiGitBranch, FiLink, FiCpu, FiImage, FiEye,
   FiMic, FiBox, FiPackage, FiActivity, FiRefreshCw, FiRepeat,
+  FiCamera, FiFileText, FiSmile, FiHome, FiShoppingCart, FiMonitor, FiEdit3, FiServer, FiLayers,
 } from "react-icons/fi";
 
 export type Lang = "fr" | "en";
@@ -439,6 +440,7 @@ export interface SideQuest {
   title: Bi;
   blurb: Bi;
   tech: string[];
+  Icon: ComponentType<{ size?: number; className?: string }>;
 }
 
 export const SIDE_QUESTS: SideQuest[] = [
@@ -450,6 +452,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Multimodal AI assistant over PDFs, images, audio and video with an Agentic RAG pipeline.",
     },
     tech: ["Python", "LangChain", "Llama 3.3 70B", "ChromaDB / FAISS", "Streamlit"],
+    Icon: FaBrain,
   },
   {
     id: "plate",
@@ -459,6 +462,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Real-time plate detection & OCR for EU and North-African plates.",
     },
     tech: ["Python", "YOLOv8", "OpenCV", "EasyOCR"],
+    Icon: FiCamera,
   },
   {
     id: "cv",
@@ -468,6 +472,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "AI tool that tailors a résumé to each posting for ATS optimization.",
     },
     tech: ["Python", "FastAPI", "Llama 3.3 70B", "LangChain"],
+    Icon: FiFileText,
   },
   {
     id: "kids",
@@ -477,6 +482,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Centralized management of kids' activities, registrations and tracking (DevOps approach).",
     },
     tech: ["Vue.js", "Laravel", "Docker", "Azure"],
+    Icon: FiSmile,
   },
   {
     id: "coloc",
@@ -486,6 +492,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Connects students seeking shared accommodation, with full CI/CD.",
     },
     tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Docker", "Azure"],
+    Icon: FiHome,
   },
   {
     id: "ecom",
@@ -495,6 +502,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Full e-commerce app with comprehensive test suite and secure auth.",
     },
     tech: ["Spring Boot", "Angular", "Testcontainers", "Docker", "Azure"],
+    Icon: FiShoppingCart,
   },
   {
     id: "courselens",
@@ -504,6 +512,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Microservices course-evaluation platform for student feedback.",
     },
     tech: ["Spring Boot", "ASP.NET Core", "Angular", "Kubernetes"],
+    Icon: FiMonitor,
   },
   {
     id: "exam",
@@ -513,6 +522,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Turns course materials into summaries, Q&A and mind maps.",
     },
     tech: ["Angular", "Laravel", "Groq Cloud", "LangChain"],
+    Icon: FiEdit3,
   },
   {
     id: "voice",
@@ -522,6 +532,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Generates code from natural-language voice commands.",
     },
     tech: ["Spring Boot", "Spring AI", "n8n", "Whisper"],
+    Icon: FiMic,
   },
   {
     id: "devops-p",
@@ -531,6 +542,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "TDD-built app with a CI/CD pipeline deployed on an Azure VM.",
     },
     tech: ["Java", "Spring Security", "Kafka", "Docker", "Azure"],
+    Icon: FiServer,
   },
   {
     id: "micro-p",
@@ -540,6 +552,7 @@ export const SIDE_QUESTS: SideQuest[] = [
       en: "Training-evaluation tool in a microservices architecture.",
     },
     tech: ["Java", "Spring Boot", "Angular", "Docker", "Azure"],
+    Icon: FiLayers,
   },
 ];
 
@@ -744,8 +757,8 @@ export const UI = {
   startQuest: { fr: "Commencer l'aventure", en: "Begin the Quest" },
   titleScreen: { fr: "LA QUÊTE CARRIÈRE", en: "THE CAREER QUEST" },
   titleSub: {
-    fr: "Le parcours d'Amine, joué niveau par niveau",
-    en: "Amine's journey, played level by level",
+    fr: "Le parcours d'Amine, joué chapitre par chapitre",
+    en: "Amine's journey, played chapter by chapter",
   },
   guildLanguages: { fr: "Langues de la Guilde", en: "Guild Languages" },
   offMapTitle: { fr: "Activités Hors-Carte", en: "Off-Map Activities" },

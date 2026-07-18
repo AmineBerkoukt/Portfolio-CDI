@@ -50,17 +50,15 @@ export default function Hero() {
     >
       {/* Ambient theatrical glow — sits behind the split content. */}
       <div
-        className={`absolute inset-0 -z-10 ${
-          isDark
+        className={`absolute inset-0 -z-10 ${isDark
             ? "bg-gradient-to-b from-stage-black via-stage-velvet to-stage-black"
             : "bg-gradient-to-b from-stage-cream via-stage-ivory to-stage-cream"
-        }`}
+          }`}
       />
       {/* Portfolio grid pattern overlay — subtle structural texture */}
       <div
-        className={`pointer-events-none absolute inset-0 -z-10 opacity-[0.03] ${
-          isDark ? "bg-white" : "bg-black"
-        }`}
+        className={`pointer-events-none absolute inset-0 -z-10 opacity-[0.03] ${isDark ? "bg-white" : "bg-black"
+          }`}
         style={{
           backgroundImage: `
             linear-gradient(to right, currentColor 1px, transparent 1px),
@@ -85,9 +83,8 @@ export default function Hero() {
         {/* LEFT — text / introduction */}
         <div className="text-left">
           <h1
-            className={`h1 ${
-              isDark ? "text-white text-glow" : "text-stage-charcoal"
-            }`}
+            className={`h1 ${isDark ? "text-white text-glow" : "text-stage-charcoal"
+              }`}
           >
             {heroName}
           </h1>
@@ -96,9 +93,8 @@ export default function Hero() {
             {titleWords.map((word, i) => (
               <span
                 key={i}
-                className={`text-xl uppercase tracking-wider md:text-2xl lg:text-3xl ${
-                  isDark ? "text-stage-silver" : "text-stage-charcoal/80"
-                }`}
+                className={`text-xl uppercase tracking-wider md:text-2xl lg:text-3xl ${isDark ? "text-stage-silver" : "text-stage-charcoal/80"
+                  }`}
               >
                 {word}
               </span>
@@ -107,9 +103,8 @@ export default function Hero() {
 
           {hasTagline && (
             <p
-              className={`mt-4 break-words max-w-[400px] font-mono text-base leading-tight ${
-                isDark ? "text-stage-silver/80" : "text-stage-charcoal/70"
-              }`}
+              className={`mt-4 break-words max-w-[400px] font-mono text-base leading-tight ${isDark ? "text-stage-silver/80" : "text-stage-charcoal/70"
+                }`}
             >
               {heroTagline}
             </p>
@@ -125,27 +120,25 @@ export default function Hero() {
                   : ["0 0 15px rgba(26,111,224,0.4)", "0 0 30px rgba(90,162,255,0.8)", "0 0 15px rgba(26,111,224,0.4)"]
               }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className={`rounded-full border overflow-hidden ${
-                isDark ? "bg-stage-red border-stage-red-glow" : "bg-stage-azure border-stage-azure-glow"
-              }`}
+              className={`rounded-full border overflow-hidden ${isDark ? "bg-stage-red border-stage-red-glow" : "bg-stage-azure border-stage-azure-glow"
+                }`}
             >
-              <Link 
+              <Link
                 href="/story"
                 className="inline-flex items-center gap-3 px-8 py-3.5 font-condensed text-[17px] uppercase tracking-[0.15em] text-white"
               >
                 <FiZap size={18} />
-                {lang === "fr" ? "CV façon jeu vidéo" : "CV as a game"}
+                {lang === "fr" ? "CV en jeu vidéo" : "CV as a game"}
               </Link>
             </motion.div>
 
             <motion.a
               href="/assets/resume.pdf"
               download="Amine-Berkoukt-Resume.pdf"
-              className={`inline-flex items-center gap-3 cue-button rounded-full px-6 py-3 ${
-                isDark
+              className={`inline-flex items-center gap-3 cue-button rounded-full px-6 py-3 ${isDark
                   ? "bg-stage-red/20 text-white border border-stage-red/40 hover:bg-stage-red/30"
                   : "cue-button-light bg-stage-azure/10 text-stage-charcoal border border-stage-azure/40 hover:bg-stage-azure/20"
-              }`}
+                }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onMouseEnter={() => setCtaHovered(true)}
@@ -163,11 +156,10 @@ export default function Hero() {
         <div className="relative h-[55vh] w-full min-h-[420px] lg:h-[80vh]">
           {/* Existing radial tint */}
           <div
-            className={`pointer-events-none absolute inset-0 rounded-3xl ${
-              isDark
+            className={`pointer-events-none absolute inset-0 rounded-3xl ${isDark
                 ? "bg-[radial-gradient(circle_at_center,rgba(196,30,58,0.08),transparent_60%)]"
                 : "bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.08),transparent_60%)]"
-            }`}
+              }`}
           />
 
           {/* ── Light-mode azure motifs ── */}

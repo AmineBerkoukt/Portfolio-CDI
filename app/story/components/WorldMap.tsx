@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll } from "framer-motion";
 import { useTheme } from "../../components/ThemeProvider";
 import { useI18n } from "../../components/I18nProvider";
 import { STAGES, UI, type Stage, type LevelStatus } from "../data";
@@ -104,6 +105,11 @@ export default function WorldMap() {
   const { lang } = useI18n();
   const isDark = theme === "dark";
   const reduce = useReducedMotion();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start 75%", "end 25%"]
+  });
 
   // Scenery tints adapt to the active theme.
   const ink = isDark ? "rgba(255,255,255,0.10)" : "rgba(10,10,15,0.07)";
@@ -136,7 +142,8 @@ export default function WorldMap() {
 
       {/* Desktop adventure map */}
       <div
-        className={`relative hidden lg:block w-full max-w-4xl mx-auto rounded-2xl border overflow-hidden story-grid-bg ${
+        ref={containerRef}
+        className={`group relative hidden lg:block w-full max-w-4xl mx-auto rounded-2xl border overflow-hidden story-grid-bg ${
           isDark ? "bg-stage-velvet/50 border-stage-red/15" : "bg-white/50 border-stage-azure/40"
         }`}
         style={{ minHeight: 660 }}
@@ -259,6 +266,7 @@ export default function WorldMap() {
           {/* dashed centerline */}
           <path
             d={ROUTE_D}
+            className="story-route-march"
             fill="none"
             stroke={isDark ? "rgba(255,255,255,0.35)" : "rgba(10,10,15,0.3)"}
             strokeWidth={1.2}
@@ -274,11 +282,11 @@ export default function WorldMap() {
             strokeWidth={3}
             strokeLinecap="round"
             vectorEffect="non-scaling-stroke"
-            initial={{ pathLength: reduce ? 1 : 0, opacity: reduce ? 1 : 0.3 }}
-            whileInView={{ pathLength: 1, opacity: 1 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ duration: reduce ? 0 : 2.2, ease: "easeInOut" }}
-            style={{ filter: "drop-shadow(0 0 5px rgba(168,85,247,0.6))" }}
+            style={{ 
+              pathLength: reduce ? 1 : scrollYProgress,
+              opacity: reduce ? 1 : scrollYProgress,
+              filter: "drop-shadow(0 0 5px rgba(168,85,247,0.6))" 
+            }}
           />
         </svg>
 
@@ -302,13 +310,7 @@ export default function WorldMap() {
           const hasFinalBoss = s.items.some((i) => i.finalBoss);
           return (
             <li key={s.id} className="relative">
-              <span
-                className={`absolute -left-[9px] top-3 h-4 w-4 rounded-full border-2`}
-                style={{
-                  background: isDark ? "var(--stage-velvet)" : "#fff",
-                  borderColor: a.base,
-                }}
-              />
+
               <button
                 onClick={() => scrollToId(s.id)}
                 className="story-focus w-full text-left py-2 transition-colors flex items-center gap-3 hover:opacity-80 group"

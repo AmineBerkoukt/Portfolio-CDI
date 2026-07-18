@@ -287,8 +287,19 @@ body.light-mode .section-title {
 
 /* ===== CareerQuest / Story route ===== */
 
-/* Glowing, pulsing quest nodes on the world map.
-   --node-glow / --node-ring are set per-level-theme inline. */
+@keyframes storyRouteMarch {
+  from { stroke-dashoffset: 4.5; }
+  to { stroke-dashoffset: 0; }
+}
+
+.story-route-march {
+  animation: storyRouteMarch 5s linear infinite;
+}
+
+.group:hover .story-route-march {
+  animation: storyRouteMarch 1.2s linear infinite;
+}
+
 @keyframes storyNodePulse {
   0%, 100% {
     box-shadow: 0 0 0 0 var(--node-ring, rgba(196, 30, 58, 0)),

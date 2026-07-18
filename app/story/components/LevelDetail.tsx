@@ -88,8 +88,8 @@ function ItemCard({ item, stage, index }: { item: CareerItem; stage: Stage; inde
     <motion.div
       className={`${cardBase} ${item.finalBoss ? "story-node-pulse-current" : ""}`}
       style={{
-        borderColor: isBoss ? a.base : `${a.base}55`,
-        boxShadow: isBoss ? `0 0 22px ${a.glow}55, inset 0 0 14px ${a.base}22` : `0 0 10px ${a.glow}22`,
+        borderColor: isBoss ? a.base : `color-mix(in srgb, ${a.base} 33%, transparent)`,
+        boxShadow: isBoss ? `0 0 22px color-mix(in srgb, ${a.glow} 33%, transparent), inset 0 0 14px color-mix(in srgb, ${a.base} 13%, transparent)` : `0 0 10px color-mix(in srgb, ${a.glow} 13%, transparent)`,
         background: warmBg === "none" ? undefined : warmBg,
       }}
       initial={{ opacity: 0, y: reduce ? 0 : 26, scale: reduce || !isBoss ? 1 : 0.97 }}
@@ -159,7 +159,7 @@ function ItemCard({ item, stage, index }: { item: CareerItem; stage: Stage; inde
                 <span
                   key={i}
                   className="quest-loot border"
-                  style={{ borderColor: `${a.base}40`, background: `${a.base}10`, color: isDark ? "#e7e7e7" : "var(--stage-charcoal)" }}
+                  style={{ borderColor: `color-mix(in srgb, ${a.base} 25%, transparent)`, background: `color-mix(in srgb, ${a.base} 6%, transparent)`, color: isDark ? "#e7e7e7" : "var(--stage-charcoal)" }}
                 >
                   <FiStar size={13} style={{ color: a.glow }} />
                   {pick(lang, loot)}
@@ -214,7 +214,7 @@ function StageBlock({ stage, index }: { stage: Stage; index: number }) {
   return (
     <motion.div
       id={stage.id}
-      className="scroll-margin relative pl-12 md:pl-16 pb-10"
+      className="scroll-mt-36 lg:scroll-mt-12 relative pl-12 md:pl-16 pb-10"
       initial={{ opacity: 0, y: reduce ? 0 : 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
