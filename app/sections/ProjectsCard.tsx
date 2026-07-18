@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useTheme } from "../components/ThemeProvider";
 import { useI18n } from "../components/I18nProvider";
 import SceneCard from "../components/SceneCard";
-import { FiCode, FiTool, FiCalendar } from "react-icons/fi";
+import { FiTool, FiCalendar, FiGitBranch, FiGrid, FiCpu, FiCamera, FiFileText, FiSmile, FiHome, FiShoppingCart, FiBookOpen, FiPenTool, FiMic } from "react-icons/fi";
 import useRestoredScroll from "../hooks/useRestoredScroll";
 
 function safeArray(val: any): string[] {
@@ -18,17 +18,17 @@ export default function ProjectsCard() {
   const restoredScroll = useRestoredScroll();
 
   const projectItems = [
-    { key: "devops", icon: FiCode },
-    { key: "microservices", icon: FiCode },
-    { key: "rag", icon: FiCode },
-    { key: "licensePlate", icon: FiCode },
-    { key: "cvAdapter", icon: FiCode },
-    { key: "kidsActivities", icon: FiCode },
-    { key: "studentColocation", icon: FiCode },
-    { key: "ecommerce", icon: FiCode },
-    { key: "courselens", icon: FiCode },
-    { key: "examAssistant", icon: FiCode },
-    { key: "voiceCoding", icon: FiCode },
+    { key: "devops", icon: FiGitBranch },
+    { key: "microservices", icon: FiGrid },
+    { key: "rag", icon: FiCpu },
+    { key: "licensePlate", icon: FiCamera },
+    { key: "cvAdapter", icon: FiFileText },
+    { key: "kidsActivities", icon: FiSmile },
+    { key: "studentColocation", icon: FiHome },
+    { key: "ecommerce", icon: FiShoppingCart },
+    { key: "courselens", icon: FiBookOpen },
+    { key: "examAssistant", icon: FiPenTool },
+    { key: "voiceCoding", icon: FiMic },
   ];
 
   return (
