@@ -21,8 +21,8 @@ interface NavItem {
 const NAV: NavItem[] = [
   { id: "world", label: UI.worldMap, theme: "academic" },
   ...STAGES.map((l) => ({ id: l.id, label: l.title, theme: l.theme, num: l.num })),
-  { id: "side-quests", label: UI.sideQuests, theme: "side" },
   { id: "skill-tree", label: UI.skillTree, theme: "academic" },
+  { id: "side-quests", label: UI.sideQuests, theme: "side" },
   { id: "trophies", label: UI.trophies, theme: "boss" },
   { id: "recruit", label: UI.recruit, theme: "recruit" },
 ];

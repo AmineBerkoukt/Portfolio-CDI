@@ -303,8 +303,17 @@ export default function WorldMap() {
       </div>
 
       {/* Mobile / tablet vertical timeline */}
-      <ol className="lg:hidden relative max-w-xl mx-auto pl-4 space-y-4 border-l border-stage-silver/20">
-        {STAGES.map((s) => {
+      <div className="lg:hidden relative max-w-xl mx-auto">
+        <span
+          className="absolute left-[35px] top-4 bottom-4 w-[2px] rounded-full z-0"
+          style={{
+            background: "linear-gradient(to bottom, var(--quest-academic), var(--quest-boss) 45%, var(--quest-side) 70%, var(--quest-recruit))",
+            opacity: 0.4
+          }}
+          aria-hidden="true"
+        />
+        <ol className="relative pl-4 space-y-4 z-10">
+          {STAGES.map((s) => {
           const a = accent(s.theme);
           const hasBoss = s.items.some((i) => i.bossTag);
           const hasFinalBoss = s.items.some((i) => i.finalBoss);
@@ -355,6 +364,7 @@ export default function WorldMap() {
           );
         })}
       </ol>
+      </div>
     </section>
   );
 }

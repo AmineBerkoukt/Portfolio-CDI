@@ -148,6 +148,7 @@ export interface Stage {
   num: string;
   kicker: Bi;
   title: Bi;
+  blurb?: Bi;
   org: Bi;
   period: Bi;
   theme: ThemeKey;
@@ -163,7 +164,11 @@ export const STAGES: Stage[] = [
     id: "stage-1",
     num: "01",
     kicker: { fr: "CHAPITRE 01", en: "CHAPTER 01" },
-    title: { fr: "Ingénieur à l'ENSA Tanger", en: "Engineer at ENSA Tanger" },
+    title: { fr: "La Forge de l'Ingénieur", en: "The Engineer's Forge" },
+    blurb: {
+      fr: "Là où tout commence. Cinq années à forger les fondations — des classes prépa qui aiguisent l'esprit, jusqu'à la porte rare du double diplôme, et enfin le cycle d'ingénieur qui transforme un étudiant en développeur. Le tutoriel qui n'en avait pas l'air.",
+      en: "Where it all begins. Five years spent forging the fundamentals — from the preparatory classes that sharpen the mind, through the rare dual-degree gate, to the engineering cycle that turns a student into a developer. The tutorial that never felt like one."
+    },
     org: { fr: "École Nationale des Sciences de l'Ingénieur — Tanger, Maroc", en: "National School of Engineering — Tangier, Morocco" },
     period: { fr: "2021 – 2026", en: "2021 – 2026" },
     theme: "academic",
@@ -227,8 +232,12 @@ export const STAGES: Stage[] = [
     id: "stage-2",
     num: "02",
     kicker: { fr: "CHAPITRE 02", en: "CHAPTER 02" },
-    title: { fr: "Stagiaire en Génie Informatique", en: "Software Engineering Intern" },
-    org: { fr: "ORMVA Loukkos — Stage", en: "ORMVA Loukkos — Internship" },
+    title: { fr: "Prologue", en: "Prologue" },
+    blurb: {
+      fr: "Le tout premier stage et la découverte du monde de l'entreprise. Une introduction vitale à son fonctionnement, au travail d'équipe, et le tout premier contact direct avec du code en milieu professionnel.",
+      en: "The very first internship and the discovery of the corporate world. A vital introduction to how enterprises work, teamwork, and the first direct contact with code in a professional environment."
+    },
+    org: { fr: "ORMVA du Loukkos — Stage", en: "ORMVA Loukkos — Internship" },
     period: { fr: "Premier contact pro", en: "First Pro Contact" },
     theme: "boss",
     status: "completed",
@@ -271,8 +280,12 @@ export const STAGES: Stage[] = [
     id: "stage-3",
     num: "03",
     kicker: { fr: "CHAPITRE 03", en: "CHAPTER 03" },
-    title: { fr: "Développeur Fullstack Java/Angular", en: "Java/Angular Fullstack Developer" },
-    org: { fr: "SQLI Rabat — Stage", en: "SQLI Rabat — Internship" },
+    title: { fr: "Le Creuset Fullstack", en: "The Fullstack Crucible" },
+    blurb: {
+      fr: "L'arbre de compétences explose : Design Patterns, DevOps, CI/CD. Mais la vraie épreuve n'est pas le code — c'est l'attente. Le pipeline qui tourne, la revue qui approche, la jauge de tension qui monte jusqu'au vert libérateur.",
+      en: "The skill tree explodes open: Design Patterns, DevOps, CI/CD. But the real trial isn't the code — it's the wait. The pipeline running, the review looming, the tension meter climbing toward that green pass."
+    },
+    org: { fr: "SQLI — Rabat, Maroc", en: "SQLI — Rabat, Morocco" },
     period: { fr: "Juillet – Août 2024", en: "July – August 2024" },
     theme: "boss",
     status: "completed",
@@ -318,7 +331,11 @@ export const STAGES: Stage[] = [
     id: "stage-4",
     num: "04",
     kicker: { fr: "CHAPITRE 04", en: "CHAPTER 04" },
-    title: { fr: "Double Diplôme : Master 2 DOSI", en: "Dual Degree: Master 2 DOSI" },
+    title: { fr: "L'Autre Rive", en: "The Far Shore" },
+    blurb: {
+      fr: "Traverser une frontière ne se joue pas qu'en logistique. Un nouveau pays, un nouveau rythme, et un boss qui ne se bat pas avec du code : s'adapter, tenir, trouver ses repères — avant que les cours et les projets ne redeviennent un terrain familier.",
+      en: "Crossing a border isn't just logistics. A new country, a new rhythm, and a boss you can't fight with code: adapting, holding on, finding your footing — before lectures and projects become familiar ground again."
+    },
     org: { fr: "Université de Bretagne Occidentale — Brest", en: "University of Western Brittany — Brest" },
     period: { fr: "2025 – 2026", en: "2025 – 2026" },
     theme: "academic",
@@ -364,7 +381,11 @@ export const STAGES: Stage[] = [
     id: "stage-5",
     num: "05",
     kicker: { fr: "CHAPITRE 05", en: "CHAPTER 05" },
-    title: { fr: "Le Stage de Fin d'étude", en: "The end of study Internship" },
+    title: { fr: "La Dernière Chasse", en: "The Last Hunt" },
+    blurb: {
+      fr: "Avant de jouer, il faut décrocher le ticket d'entrée. Candidatures, silences, refus, entretiens — la chasse avant la récompense. Puis vient l'épreuve finale de la formation : livrer en conditions réelles, sans filet.",
+      en: "Before you can play, you have to earn the ticket in. Applications, silence, rejection, interviews — the hunt before the reward. Then comes training's final trial: shipping for real, with no safety net."
+    },
     org: { fr: "Zenika Rennes — Stage", en: "Zenika Rennes — Internship" },
     period: { fr: "2026", en: "2026" },
     theme: "boss",
@@ -408,8 +429,12 @@ export const STAGES: Stage[] = [
     id: "stage-6",
     num: "06",
     kicker: { fr: "CHAPITRE 06 · BIG BOSS", en: "CHAPTER 06 · BIG BOSS" },
-    title: { fr: "BIG BOSS : Décrocher un Emploi", en: "BIG BOSS: Seeking a Job" },
-    org: { fr: "En cours — la bataille finale", en: "Ongoing — the final battle" },
+    title: { fr: "Le Seuil du Monde Réel", en: "The Threshold of the Real World" },
+    blurb: {
+      fr: "Le vrai big boss, celui pour lequel tout le reste n'était qu'entraînement. Pas de checkpoint, pas de guide de stratégie tout fait. La carte s'arrête ici — pour l'instant — en attendant le coup qui la termine.",
+      en: "The real big boss — the one everything else was training for. No checkpoint, no strategy guide. The map ends here — for now — waiting on the hit that finishes it."
+    },
+    org: { fr: "Le Marché du Travail", en: "The Job Market" },
     period: { fr: "2026 →", en: "2026 →" },
     theme: "recruit",
     status: "current",
@@ -575,7 +600,7 @@ export const SKILL_BRANCHES: SkillBranch[] = [
     key: "web",
     label: { fr: "Développement Web", en: "Web Dev" },
     theme: "web",
-    skills: tech("Spring", "Angular", "React", "HTML5", "CSS3"),
+    skills: tech("Spring", "Spring Boot", "Spring Security", "Spring AI", "Angular", "React.js", "Express.js", "Laravel"),
   },
   {
     key: "devops",
@@ -743,8 +768,8 @@ export const UI = {
   },
   skillTree: { fr: "ARBE DES COMPÉTENCES", en: "SKILL TREE" },
   skillTreeSub: {
-    fr: "La classe débloque ses branches",
-    en: "The class unlocks its branches",
+    fr: "Survolez ou touchez les branches pour révéler les compétences",
+    en: "Hover or tap the branches to reveal unlocked skills",
   },
   trophies: { fr: "SALLE DES TROPHÉES", en: "TROPHY ROOM" },
   trophiesSub: {

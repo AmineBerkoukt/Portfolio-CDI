@@ -55,7 +55,7 @@ export default function Header() {
               className="flex items-center"
               whileHover={{ scale: 1.05 }}
             >
-              <span className={`font-serif text-lg md:text-xl tracking-[0.2em] ${isDark ? "text-white" : "text-stage-charcoal"}`}>
+              <span className={`font-serif text-sm sm:text-base md:text-xl tracking-widest md:tracking-[0.2em] whitespace-nowrap ${isDark ? "text-white" : "text-stage-charcoal"}`}>
                 Amine BERKOUKT
               </span>
             </motion.div>
@@ -82,7 +82,7 @@ export default function Header() {
           </nav>
 
           {/* Toggles */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             {/* Language Toggle */}
             <motion.button
               onClick={toggleLang}
