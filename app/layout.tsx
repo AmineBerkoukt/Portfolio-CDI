@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
 import { I18nProvider } from "./components/I18nProvider";
 import ModelPreloader from "./components/ModelPreloader";
+import { Analytics } from "@vercel/analytics/next"
 
 // Self-hosted fonts via next/font — no render-blocking Google request, no FOUT,
 // and the woff2 files are hashed + cached by the framework.
@@ -116,6 +117,7 @@ export default function RootLayout({
         {/* Begins the avatar GLB download at first client render, decoupled
             from the rest of the page so it's ready immediately. */}
         <ModelPreloader />
+        <Analytics />
         <ThemeProvider>
           <I18nProvider>{children}</I18nProvider>
         </ThemeProvider>
