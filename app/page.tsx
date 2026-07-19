@@ -14,8 +14,44 @@ import Reveal from "./components/Reveal";
 import ScrollToTop from "./components/ScrollToTop";
 
 export default function Home() {
+  const jsonLdPerson = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Amine BERKOUKT",
+    jobTitle: "Full Stack Java/Angular & DevOps Engineer",
+    url: "https://berkoukt-portfolio.vercel.app",
+    sameAs: [
+      "https://www.linkedin.com/in/amine-berkoukt",
+      "https://github.com/AmineBerkworkt",
+    ],
+    knowsAbout: [
+      "Java", "Spring Boot", "Angular", "Docker", "Kubernetes",
+      "DevOps", "CI/CD", "Full Stack Development",
+    ],
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Rennes",
+      addressCountry: "FR",
+    },
+  };
+
+  const jsonLdWebSite = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Amine BERKOUKT — Portfolio",
+    url: "https://berkoukt-portfolio.vercel.app",
+  };
+
   return (
     <main className="relative min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
+      />
       <Header />
       <Hero />
       <div className="relative z-10 space-y-6 pb-16">

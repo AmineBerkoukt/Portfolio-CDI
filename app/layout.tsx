@@ -26,13 +26,79 @@ const jetbrains = JetBrains_Mono({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
+const SITE_URL = "https://berkoukt-portfolio.vercel.app";
+
 export const metadata: Metadata = {
-  title: "Amine BERKOUKT — Full Stack Java/Angular & DevOps Engineer",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Amine BERKOUKT — Full Stack Java/Angular & DevOps Engineer",
+    template: "%s | Amine BERKOUKT",
+  },
   description:
     "Portfolio of Amine BERKOUKT, Full Stack Java/Angular & DevOps Engineer. Specialized in Spring Boot, Angular, Docker, Kubernetes, and cloud technologies.",
+  keywords: [
+    "Amine BERKOUKT",
+    "Full Stack Developer",
+    "Java Developer",
+    "Angular Developer",
+    "Spring Boot",
+    "DevOps Engineer",
+    "Portfolio",
+    "Software Engineer",
+    "Développeur Full Stack",
+    "Ingénieur Logiciel",
+    "Docker",
+    "Kubernetes",
+    "Rennes",
+    "France",
+  ],
+  authors: [{ name: "Amine BERKOUKT", url: SITE_URL }],
+  creator: "Amine BERKOUKT",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    alternateLocale: "en_US",
+    url: SITE_URL,
+    siteName: "Amine BERKOUKT — Portfolio",
+    title: "Amine BERKOUKT — Full Stack Java/Angular & DevOps Engineer",
+    description:
+      "Portfolio of Amine BERKOUKT, Full Stack Java/Angular & DevOps Engineer. Specialized in Spring Boot, Angular, Docker, Kubernetes, and cloud technologies.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Amine BERKOUKT — Full Stack Java/Angular & DevOps Engineer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Amine BERKOUKT — Full Stack Java/Angular & DevOps Engineer",
+    description:
+      "Portfolio of Amine BERKOUKT, Full Stack Java/Angular & DevOps Engineer. Spring Boot, Angular, Docker, Kubernetes.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
 };
 
 export default function RootLayout({

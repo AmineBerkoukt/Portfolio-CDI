@@ -265,6 +265,11 @@ function StageBlock({ stage, index }: { stage: Stage; index: number }) {
               <p className={`mt-1.5 font-mono text-xs ${isDark ? "text-stage-silver/70" : "text-stage-charcoal/60"}`}>
                 {pick(lang, stage.org)} · {pick(lang, stage.period)}
               </p>
+              {stage.blurb && (
+                <p className={`mt-4 font-serif text-sm md:text-base leading-relaxed ${isDark ? "text-stage-silver/90" : "text-stage-charcoal/90"}`}>
+                  {pick(lang, stage.blurb)}
+                </p>
+              )}
             </div>
             <span
               className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-widest border"

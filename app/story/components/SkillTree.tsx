@@ -26,14 +26,16 @@ interface BranchLayout {
   leaves: LeafPos[];
 }
 
+const roundCoord = (n: number) => Number(n.toFixed(4));
+
 function buildLayout(): BranchLayout[] {
   return SKILL_BRANCHES.map((branch, i) => {
     const deg = -90 + i * STEP;
     const rd = (deg * Math.PI) / 180;
     const pd = ((deg + 90) * Math.PI) / 180; // perpendicular (tangential) direction
     const header = {
-      x: C + R_HEADER * Math.cos(rd),
-      y: C + R_HEADER * Math.sin(rd),
+      x: roundCoord(C + R_HEADER * Math.cos(rd)),
+      y: roundCoord(C + R_HEADER * Math.sin(rd)),
     };
     const n = branch.skills.length;
     const half = Math.ceil(n / 2);
@@ -43,8 +45,8 @@ function buildLayout(): BranchLayout[] {
       const count = isInner ? half : n - half;
       const r = isInner ? R_INNER : R_OUTER;
       const t = (idx - (count - 1) / 2) * GT;
-      const x = C + r * Math.cos(rd) + t * Math.cos(pd);
-      const y = C + r * Math.sin(rd) + t * Math.sin(pd);
+      const x = roundCoord(C + r * Math.cos(rd) + t * Math.cos(pd));
+      const y = roundCoord(C + r * Math.sin(rd) + t * Math.sin(pd));
       return { x, y, j };
     });
     return { header, leaves };
@@ -142,27 +144,27 @@ export default function SkillTree() {
               // Arc points for the 3rd ring section (if active)
               const startA = -90 + (i - 0.5) * STEP;
               const startAr = (startA * Math.PI) / 180;
-              const x1 = C + 47 * Math.cos(startAr);
-              const y1 = C + 47 * Math.sin(startAr);
-              const x2 = C + 47 * Math.cos(ar);
-              const y2 = C + 47 * Math.sin(ar);
+              const x1 = roundCoord(C + 47 * Math.cos(startAr));
+              const y1 = roundCoord(C + 47 * Math.sin(startAr));
+              const x2 = roundCoord(C + 47 * Math.cos(ar));
+              const y2 = roundCoord(C + 47 * Math.sin(ar));
 
               return (
                 <g key={i}>
                   <line
                     x1={C}
                     y1={C}
-                    x2={C + rDivider * Math.cos(ar)}
-                    y2={C + rDivider * Math.sin(ar)}
+                    x2={roundCoord(C + rDivider * Math.cos(ar))}
+                    y2={roundCoord(C + rDivider * Math.sin(ar))}
                     stroke={ring}
-                    strokeWidth={0.3}
+                    strokeWidth={isDark ? 0.3 : 0.8}
                   />
                   {isDomainActive && (
                     <path
                       d={`M ${x1} ${y1} A 47 47 0 0 1 ${x2} ${y2}`}
                       fill="none"
                       stroke={ring}
-                      strokeWidth={0.4}
+                      strokeWidth={isDark ? 0.4 : 1}
                     />
                   )}
                 </g>
@@ -172,8 +174,8 @@ export default function SkillTree() {
             {/* spoke + leaf connectors */}
             {layout.map((b, i) => {
               const a = accent(SKILL_BRANCHES[i].theme);
-              const stroke = { stroke: a.base, strokeWidth: 0.6, strokeLinecap: "round" as const };
-              const glow = { filter: `drop-shadow(0 0 1.2px ${a.glow})` };
+              const stroke = { stroke: isDark ? a.base : `color-mix(in srgb, ${a.base} 65%, var(--stage-charcoal))`, strokeWidth: isDark ? 0.6 : 1.2, strokeLinecap: "round" as const };
+              const glow = isDark ? { filter: `drop-shadow(0 0 1.2px ${a.glow})` } : {};
               return (
                 <g key={i}>
                   <motion.line
@@ -181,7 +183,7 @@ export default function SkillTree() {
                     y1={C}
                     x2={b.header.x}
                     y2={b.header.y}
-                    style={{ ...stroke, ...glow, opacity: 0.55 }}
+                    style={{ ...stroke, ...glow, opacity: isDark ? 0.55 : 0.85 }}
                     initial={{ pathLength: reduce ? 1 : 0 }}
                     whileInView={{ pathLength: 1 }}
                     viewport={{ once: true, amount: 0.3 }}
@@ -200,7 +202,7 @@ export default function SkillTree() {
                         initial={false}
                         animate={{ 
                           pathLength: isVisible ? 1 : 0, 
-                          opacity: isVisible ? 0.45 : 0 
+                          opacity: isVisible ? (isDark ? 0.45 : 0.75) : 0 
                         }}
                         transition={{
                           duration: 0.3,
@@ -273,10 +275,10 @@ export default function SkillTree() {
                   x: "-50%",
                   y: "-50%",
                   width: "15%",
-                  borderColor: a.base,
-                  background: (isActive || isHovered) ? a.base : (isDark ? "rgba(10,10,15,0.85)" : "rgba(255,255,255,0.9)"),
-                  color: (isActive || isHovered) ? (isDark ? "#fff" : "#000") : a.glow,
-                  boxShadow: (isActive || isHovered) ? `0 0 20px ${a.glow}88` : `0 0 14px ${a.glow}44`,
+                  borderColor: isDark ? a.base : `color-mix(in srgb, ${a.base} 70%, var(--stage-charcoal))`,
+                  background: (isActive || isHovered) ? a.base : (isDark ? "rgba(10,10,15,0.85)" : "rgba(255,255,255,0.95)"),
+                  color: (isActive || isHovered) ? (isDark ? "#fff" : "#000") : (isDark ? a.glow : `color-mix(in srgb, ${a.base} 70%, var(--stage-charcoal))`),
+                  boxShadow: (isActive || isHovered) ? `0 0 20px ${a.glow}88` : (isDark ? `0 0 14px ${a.glow}44` : `0 0 14px rgba(0,0,0,0.1)`),
                 }}
                 onMouseEnter={() => setHoveredDomain(i)}
                 onMouseLeave={() => setHoveredDomain(null)}
@@ -318,9 +320,9 @@ export default function SkillTree() {
                         top: `${lf.y}%`,
                         x: "-50%",
                         y: "-50%",
-                        borderColor: `${a.base}99`,
-                        background: isDark ? "rgba(10,10,15,0.9)" : "rgba(255,255,255,0.92)",
-                        boxShadow: `0 0 12px ${a.glow}33`,
+                        borderColor: isDark ? `${a.base}99` : `color-mix(in srgb, ${a.base} 60%, var(--stage-charcoal))`,
+                        background: isDark ? "rgba(10,10,15,0.9)" : "rgba(255,255,255,0.98)",
+                        boxShadow: isDark ? `0 0 12px ${a.glow}33` : `0 0 6px rgba(0,0,0,0.1)`,
                         pointerEvents: isVisible ? "auto" : "none",
                       }}
                       title={skill.name}
