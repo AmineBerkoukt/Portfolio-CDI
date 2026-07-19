@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Oswald, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./components/ThemeProvider";
@@ -22,6 +22,12 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
   variable: "--font-jetbrains",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   title: "Amine BERKOUKT — Full Stack Java/Angular & DevOps Engineer",

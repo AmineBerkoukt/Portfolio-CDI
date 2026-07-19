@@ -61,7 +61,7 @@ function StoryFooter() {
 
 export default function StoryApp() {
   return (
-    <main className="relative min-h-screen">
+    <main className="relative min-h-screen overflow-x-hidden">
       <StoryHeader />
       <TitleScreen />
       <div className="max-w-[1440px] mx-auto lg:px-8 lg:grid lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12 pb-16">
