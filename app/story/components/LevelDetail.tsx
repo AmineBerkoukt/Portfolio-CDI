@@ -15,10 +15,10 @@ function StatusBadge({ status, a, isDark, lang }: { status: CareerItem["status"]
   const Icon = status === "completed" ? FiCheck : FiZap;
   return (
     <span
-      className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-widest border"
+      className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-widest border"
       style={{ borderColor: a.base, color: a.glow, background: `${a.base}1a` }}
     >
-      <Icon size={12} />
+      <Icon size={12} className="shrink-0" />
       {pick(lang, UI.status[status])}
     </span>
   );
@@ -124,9 +124,9 @@ function ItemCard({ item, stage, index }: { item: CareerItem; stage: Stage; inde
         )}
 
         {/* title + status row */}
-        <div className="flex items-start justify-between gap-3 mb-2">
+        <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2 mb-2">
           <h4
-            className={`font-condensed text-xl md:text-2xl uppercase tracking-wide leading-tight ${isBoss ? "" : ""}`}
+            className={`min-w-0 font-condensed text-xl md:text-2xl uppercase tracking-wide leading-tight break-words ${isBoss ? "" : ""}`}
             style={{ color: isDark ? "#fff" : "var(--stage-charcoal)" }}
           >
             {pick(lang, item.title)}
@@ -248,8 +248,8 @@ function StageBlock({ stage, index }: { stage: Stage; index: number }) {
         />
         <div className="p-6 md:p-8">
           {/* stage header */}
-          <div className="flex items-start justify-between gap-4 mb-5">
-            <div>
+          <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3 mb-5">
+            <div className="min-w-0 flex-1 pr-4">
               <span
                 className="font-mono text-[10px] uppercase tracking-[0.3em] tabular-nums"
                 style={{ color: a.base }}
@@ -272,10 +272,10 @@ function StageBlock({ stage, index }: { stage: Stage; index: number }) {
               )}
             </div>
             <span
-              className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-widest border"
+              className="shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-mono text-[10px] uppercase tracking-widest border mt-1 sm:mt-0"
               style={{ borderColor: a.base, color: a.glow, background: `${a.base}1a` }}
             >
-              {stage.status === "completed" ? <FiCheck size={12} /> : <FiZap size={12} />}
+              {stage.status === "completed" ? <FiCheck size={12} className="shrink-0" /> : <FiZap size={12} className="shrink-0" />}
               {pick(lang, UI.status[stage.status])}
             </span>
           </div>
